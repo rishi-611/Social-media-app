@@ -1,9 +1,11 @@
 const express = require("express");
+const auth = require("../middleware/auth");
+const User = require("../db/models/User");
 
 const authRouter = express.Router();
 
-authRouter.get("/", (req, res) => {
-  res.send("authRouter working");
-});
+// all routes that require authentication
+
+// get user by id
 
 module.exports = authRouter;
