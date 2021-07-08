@@ -6,10 +6,6 @@ const { check, validationResult } = require("express-validator");
 
 const profileRouter = express.Router();
 
-const profileValidator = [
-  check("skills", "Skills field can not be empty").notEmpty(),
-];
-
 // route: POST /api/profile
 // PRIVATE
 // creates profile for authenticated user
@@ -148,6 +144,69 @@ profileRouter.get("/", async (req, res) => {
     res.status(500).json({ errors: [{ msg: "" }] });
   }
 });
+
+// EXPERIENCE
+
+// route: POST /api/profile/me/experience
+// adds an experience object entry to the experience array of user
+// PRIVATE
+profileRouter.post(
+  "/me/experience",
+  [
+    auth,
+    [
+      check("title", "title field can not be empty").notEmpty(),
+      check("company", "company field can not be empty").notEmpty(),
+      check("from", "from field can not be empty").notEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json(errors);
+    }
+
+    const userId = req.user._id;
+
+    // check for any fields in body which are not supported
+    const validFields = [
+      "title",
+      "company",
+      "location",
+      "from",
+      "to",
+      "current",
+      "description",
+    ];
+    const isInvalidRequest = Object.keys(req.body).some(
+      (field) => !validFields.includes(field)
+    );
+    if (isInvalidRequest) {
+      return res.status(400).json({
+        errors: [{ msg: "there are some invalid fields in your request" }],
+      });
+    }
+
+    try {
+      const profile = await Profile.findOne({ user: userId });
+      if (!profile) {
+        res.status(400).json({
+          errors: [
+            { msg: "You can only add experience after creating a profile" },
+          ],
+        });
+      }
+
+      profile.experience.unshift(req.body);
+
+      await profile.save();
+
+      res.status(200).json(profile);
+    } catch (err) {
+      res.status(500).json();
+    }
+  }
+);
 
 // route: DELETE /api/profile/me
 // deletes profile of authenticated user
