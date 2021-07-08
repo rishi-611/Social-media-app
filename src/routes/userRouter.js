@@ -6,17 +6,6 @@ const auth = require("../middleware/auth");
 
 const userRouter = express.Router();
 
-// get users (will delete this route later)
-userRouter.get("/", async (req, res) => {
-  try {
-    const users = await User.find();
-    return res.send(users);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ errors: [{ msg: "Server error" }] });
-  }
-});
-
 // route: /users
 // creates a new user
 userRouter.post(
@@ -92,6 +81,18 @@ userRouter.post("/login", async (req, res) => {
 userRouter.post("/logout", auth, async (req, res) => {
   const { user, _id } = req;
   user.tokens = user.tokens.filter((token) => token.token !== req.token);
+  try {
+    await user.save();
+    return res.json({ user });
+  } catch (err) {
+    return res.status(500).json({ errors: [{ msg: "server error" }] });
+  }
+});
+
+// logout all users
+userRouter.post("/logoutAll", auth, async (req, res) => {
+  const { user, _id } = req;
+  user.tokens = [];
   try {
     await user.save();
     return res.json({ user });

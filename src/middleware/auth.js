@@ -3,7 +3,7 @@ const User = require("../db/models/User");
 
 const auth = async function (req, res, next) {
   try {
-    const token = req.header("Authorization").replace("bearer ", "");
+    const token = req.header("Authorization").replace("Bearer ", "");
     if (!token) {
       return res.status(400).json({
         errors: [
@@ -26,6 +26,7 @@ const auth = async function (req, res, next) {
     req.token = token;
     next();
   } catch (err) {
+    console.log(err);
     return res
       .status(500)
       .json({ errors: [{ msg: "Server error. Failed to verify token" }] });
