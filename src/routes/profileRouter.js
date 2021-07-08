@@ -208,6 +208,36 @@ profileRouter.post(
   }
 );
 
+// route: DELETE /api/profile/me/experience/:expId
+// removes  experience object by id from the experience array of user
+// PRIVATE
+profileRouter.delete("/me/experience/:expId", auth, async (req, res) => {
+  const expId = req.params.expId;
+  const userId = req.user._id;
+  try {
+    const profile = await Profile.findOne({ user: userId });
+    if (!profile) {
+      return res
+        .status(404)
+        .json("there is no profile associated to this user");
+    }
+
+    const expIndex = profile.experience.findIndex(
+      (exp) => exp._id.toString() === expId
+    );
+    if (expIndex === -1) {
+      return res
+        .status(404)
+        .json("Experience object with requested id not found");
+    }
+    profile.experience.splice(expIndex, 1);
+    await profile.save();
+    res.json(profile);
+  } catch (err) {
+    res.status(500).json("server error");
+  }
+});
+
 // route: DELETE /api/profile/me
 // deletes profile of authenticated user
 // PRIVATE
