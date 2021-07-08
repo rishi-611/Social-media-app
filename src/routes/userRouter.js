@@ -101,36 +101,26 @@ userRouter.post("/logoutAll", auth, async (req, res) => {
   }
 });
 
-// get user by id (RESTRICTED)
-userRouter.get("/:id", auth, async (req, res) => {
-  const userId = req.params.id;
-  if (!userId) {
-    return res.status(400).json({
-      errors: [{ msg: "please provide id of the user to be fetched" }],
-    });
-  }
-
+// route: /api/users/me
+// get authenticated user
+// PRIVATE
+userRouter.get("/me", auth, async (req, res) => {
   try {
-    const user = await User.findById(userId);
-    return res.send({ user });
+    const user = req.user;
+    res.json(user);
   } catch (err) {
-    res.status(500).json({
-      errors: [{ msg: "Server error" }],
-    });
+    console.log(err);
+    res.status(404).json();
   }
 });
 
-// route: /users/"id"
-// deletes user (RESTRICTED)
-userRouter.delete("/:id", async (req, res) => {
-  const _id = req.params.id;
+// route: /api/users/me
+// deletes authenticated user
+// PRIVATE
+userRouter.delete("/me", auth, async (req, res) => {
   try {
-    const user = await User.findById(_id);
-    if (!user) {
-      return res.status(400).json({ errors: [{ msg: "could not find user" }] });
-    }
-    await user.remove();
-    res.send(user);
+    await req.user.remove();
+    res.send(req.user);
   } catch (err) {
     console.log(err);
     res.status(500).send({ errors: [{ msg: "server error" }] });

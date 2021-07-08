@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Profile = require("./Profile");
 
 const UserSchema = new mongoose.Schema(
   {
@@ -67,6 +68,16 @@ UserSchema.pre("save", async function (next) {
   if (user.isModified("password")) {
     user.password = await bcrypt.hash(user.password, 9);
   }
+  next();
+});
+
+// remove assosiated profile before deleting user
+UserSchema.pre("remove", async function (next) {
+  const user = this;
+  const profile = await Profile.findOne({ user: user._id });
+  if (!profile) next();
+
+  await profile.remove();
   next();
 });
 

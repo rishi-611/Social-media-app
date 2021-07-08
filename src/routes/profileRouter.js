@@ -1,5 +1,5 @@
 const express = require("express");
-const User = require("./userRouter");
+const User = require("../db/models/User");
 const Profile = require("../db/models/Profile");
 const auth = require("../middleware/auth");
 const { check, validationResult } = require("express-validator");
@@ -10,12 +10,9 @@ const profileValidator = [
   check("skills", "Skills field can not be empty").notEmpty(),
 ];
 
-// route: /api/profile/me
+// route: POST /api/profile
+// PRIVATE
 // creates profile for authenticated user
-profileRouter.get("/me", (req, res) => {
-  res.send("profileRouter working");
-});
-
 profileRouter.post(
   "/",
   auth,
@@ -84,5 +81,87 @@ profileRouter.post(
     }
   }
 );
+// route: GET /api/profile/me
+// PRIVATE
+// gets profile of current (authenticated) user
+profileRouter.get("/me", auth, async (req, res) => {
+  const user = req.user;
+  try {
+    const profile = await Profile.findOne({ user: user._id });
+    if (!profile) {
+      return res
+        .status(400)
+        .json({ errors: [{ msg: "could not find profile for this user" }] });
+    }
+    await profile.populate("user", ["name", "avatar", "email"]).execPopulate();
+    res.json(profile);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+// route: GET /api/profile/:id
+// PUBLIC
+profileRouter.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(400).json({ errors: [{ msg: "could not find user" }] });
+    }
+
+    const profile = await Profile.findOne({ user: user._id });
+    if (!profile) {
+      return res
+        .status(404)
+        .json({ errors: [{ msg: "could not find profile for this user" }] });
+    }
+    await profile.populate("user", ["name", "avatar", "email"]).execPopulate();
+    res.json(profile);
+  } catch (err) {
+    // if error is caused due to invalid id, throw 404, not 500
+    if (err.kind === "ObjectId") {
+      return res
+        .status(404)
+        .json({ errors: [{ msg: "could not find profile for this user" }] });
+    }
+    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+  }
+});
+
+// route: GET /api/profile
+// gets all profiles
+// PUBLIC
+profileRouter.get("/", async (req, res) => {
+  try {
+    const profiles = await Profile.find().populate("user", [
+      "name",
+      "avatar",
+      "email",
+    ]);
+    if (!profiles)
+      return res.status(404).json({ errors: [{ msg: "No profiles found" }] });
+
+    return res.json(profiles);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ errors: [{ msg: "" }] });
+  }
+});
+
+// route: DELETE /api/profile/me
+// deletes profile of authenticated user
+// PRIVATE
+profileRouter.delete("/me", auth, async (req, res) => {
+  const { _id } = req.user;
+  try {
+    const profile = await Profile.findOne({ user: _id });
+    await profile.remove();
+    res.json();
+  } catch (error) {
+    console.log(profile);
+    res.status(404).json("could not find user");
+  }
+});
 
 module.exports = profileRouter;
