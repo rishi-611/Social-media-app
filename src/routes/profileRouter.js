@@ -187,6 +187,13 @@ profileRouter.post(
       });
     }
 
+    // if current is not explicitely set to false
+    // and to is not provided, then we assume that
+    // user is currently working for the company
+    if (!req.body.to && req.body.current !== false) {
+      req.body.current = true;
+    }
+
     try {
       const profile = await Profile.findOne({ user: userId });
       if (!profile) {
@@ -207,6 +214,174 @@ profileRouter.post(
     }
   }
 );
+
+// EDUCATION
+
+// route: POST /api/profile/me/education
+// adds an education object entry to the education array of user
+// PRIVATE
+profileRouter.post(
+  "/me/education",
+  auth,
+  check("school", "school field can not be empty").notEmpty(),
+  check("degree", "degree field can not be empty").notEmpty(),
+  check("fieldofstudy", "fieldofstudy field can not be empty").notEmpty(),
+  check("from", "from field can not be empty").notEmpty(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json(errors);
+    }
+
+    const userId = req.user._id;
+
+    // check for any fields in body which are not supported
+    const validFields = [
+      "school",
+      "degree",
+      "fieldofstudy",
+      "from",
+      "to",
+      "current",
+      "description",
+    ];
+    const isInvalidRequest = Object.keys(req.body).some(
+      (field) => !validFields.includes(field)
+    );
+    if (isInvalidRequest) {
+      return res.status(400).json({
+        errors: [{ msg: "there are some invalid fields in your request" }],
+      });
+    }
+    if (!req.body.to && req.body.current !== false) {
+      req.body.current = true;
+    }
+
+    try {
+      const profile = await Profile.findOne({ user: userId });
+      if (!profile) {
+        res.status(400).json({
+          errors: [
+            { msg: "You can only add education after creating a profile" },
+          ],
+        });
+      }
+
+      profile.education.unshift(req.body);
+
+      await profile.save();
+
+      res.status(200).json(profile);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json();
+    }
+  }
+);
+
+// route: PATCH /api/profile/me/experience/:expId
+// edits experience by id
+// PRIVATE
+profileRouter.patch("/me/experience/:expId", auth, async (req, res) => {
+  const expId = req.params.expId;
+  const userId = req.user._id;
+
+  const validFields = [
+    "title",
+    "company",
+    "location",
+    "from",
+    "to",
+    "current",
+    "description",
+  ];
+  const isInvalidRequest = Object.keys(req.body).some(
+    (field) => !validFields.includes(field)
+  );
+  if (isInvalidRequest) {
+    return res.status(400).json({
+      errors: [{ msg: "there are some invalid fields in your request" }],
+    });
+  }
+
+  try {
+    const profile = await Profile.findOne({ user: userId });
+    if (!profile) {
+      return res
+        .status(404)
+        .json("there is no profile associated to this user");
+    }
+
+    const expIndex = profile.experience.findIndex(
+      (exp) => exp._id.toString() === expId
+    );
+    if (expIndex === -1) {
+      return res
+        .status(404)
+        .json("Experience object with requested id not found");
+    }
+    // edit fields
+    Object.keys(req.body).forEach((field) => {
+      profile.experience[expIndex][field] = req.body[field];
+    });
+    await profile.save();
+    res.json(profile);
+  } catch (err) {
+    res.status(500).json("server error");
+  }
+});
+
+// route: PATCH /api/profile/me/education/:educId
+// edits education by id
+// PRIVATE
+profileRouter.patch("/me/education/:educId", auth, async (req, res) => {
+  const educId = req.params.educId;
+  const userId = req.user._id;
+
+  const validFields = [
+    "school",
+    "degree",
+    "fieldofstudy",
+    "from",
+    "to",
+    "current",
+    "description",
+  ];
+  const isInvalidRequest = Object.keys(req.body).some(
+    (field) => !validFields.includes(field)
+  );
+  if (isInvalidRequest) {
+    return res.status(400).json({
+      errors: [{ msg: "there are some invalid fields in your request" }],
+    });
+  }
+
+  try {
+    const profile = await Profile.findOne({ user: userId });
+    if (!profile) {
+      return res
+        .status(404)
+        .json("there is no profile associated to this user");
+    }
+
+    const educIndex = profile.education.findIndex(
+      (educ) => educ._id.toString() === educId
+    );
+    if (educIndex === -1) {
+      return res
+        .status(404)
+        .json("Education object with requested id not found");
+    }
+    // edit fields
+    Object.keys(req.body).forEach((field) => {
+      profile.education[educIndex][field] = req.body[field];
+    });
+    await profile.save();
+    res.json(profile);
+  } catch (err) {
+    res.status(500).json("server error");
+  }
+});
 
 // route: DELETE /api/profile/me/experience/:expId
 // removes  experience object by id from the experience array of user
@@ -231,6 +406,36 @@ profileRouter.delete("/me/experience/:expId", auth, async (req, res) => {
         .json("Experience object with requested id not found");
     }
     profile.experience.splice(expIndex, 1);
+    await profile.save();
+    res.json(profile);
+  } catch (err) {
+    res.status(500).json("server error");
+  }
+});
+
+// route: DELETE /api/profile/me/education/:educId
+// removes  education object by id from the educaition array of user
+// PRIVATE
+profileRouter.delete("/me/education/:educId", auth, async (req, res) => {
+  const educId = req.params.educId;
+  const userId = req.user._id;
+  try {
+    const profile = await Profile.findOne({ user: userId });
+    if (!profile) {
+      return res
+        .status(404)
+        .json("there is no profile associated to this user");
+    }
+
+    const educIndex = profile.education.findIndex(
+      (educ) => educ._id.toString() === educId
+    );
+    if (educIndex === -1) {
+      return res
+        .status(404)
+        .json("Education object with requested id not found");
+    }
+    profile.education.splice(educIndex, 1);
     await profile.save();
     res.json(profile);
   } catch (err) {
