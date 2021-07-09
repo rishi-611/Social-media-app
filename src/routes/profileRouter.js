@@ -4,6 +4,10 @@ const Profile = require("../db/models/Profile");
 const auth = require("../middleware/auth");
 const { check, validationResult } = require("express-validator");
 const fetchGithub = require("../utils/fetchGithub");
+const {
+  isInvalidEducRequest,
+  isInvalidExpRequest,
+} = require("../utils/validateHelpers");
 
 const profileRouter = express.Router();
 
@@ -184,19 +188,7 @@ profileRouter.post(
     const userId = req.user._id;
 
     // check for any fields in body which are not supported
-    const validFields = [
-      "title",
-      "company",
-      "location",
-      "from",
-      "to",
-      "current",
-      "description",
-    ];
-    const isInvalidRequest = Object.keys(req.body).some(
-      (field) => !validFields.includes(field)
-    );
-    if (isInvalidRequest) {
+    if (isInvalidExpRequest(req.body)) {
       return res.status(400).json({
         errors: [{ msg: "there are some invalid fields in your request" }],
       });
@@ -251,19 +243,7 @@ profileRouter.post(
     const userId = req.user._id;
 
     // check for any fields in body which are not supported
-    const validFields = [
-      "school",
-      "degree",
-      "fieldofstudy",
-      "from",
-      "to",
-      "current",
-      "description",
-    ];
-    const isInvalidRequest = Object.keys(req.body).some(
-      (field) => !validFields.includes(field)
-    );
-    if (isInvalidRequest) {
+    if (isInvalidEducRequest(req.body)) {
       return res.status(400).json({
         errors: [{ msg: "there are some invalid fields in your request" }],
       });
@@ -294,58 +274,6 @@ profileRouter.post(
   }
 );
 
-// route: PATCH /api/profile/me/experience/:expId
-// edits experience by id
-// PRIVATE
-profileRouter.patch("/me/experience/:expId", auth, async (req, res) => {
-  const expId = req.params.expId;
-  const userId = req.user._id;
-
-  const validFields = [
-    "title",
-    "company",
-    "location",
-    "from",
-    "to",
-    "current",
-    "description",
-  ];
-  const isInvalidRequest = Object.keys(req.body).some(
-    (field) => !validFields.includes(field)
-  );
-  if (isInvalidRequest) {
-    return res.status(400).json({
-      errors: [{ msg: "there are some invalid fields in your request" }],
-    });
-  }
-
-  try {
-    const profile = await Profile.findOne({ user: userId });
-    if (!profile) {
-      return res
-        .status(404)
-        .json("there is no profile associated to this user");
-    }
-
-    const expIndex = profile.experience.findIndex(
-      (exp) => exp._id.toString() === expId
-    );
-    if (expIndex === -1) {
-      return res
-        .status(404)
-        .json("Experience object with requested id not found");
-    }
-    // edit fields
-    Object.keys(req.body).forEach((field) => {
-      profile.experience[expIndex][field] = req.body[field];
-    });
-    await profile.save();
-    res.json(profile);
-  } catch (err) {
-    res.status(500).json("server error");
-  }
-});
-
 // route: PATCH /api/profile/me/education/:educId
 // edits education by id
 // PRIVATE
@@ -353,19 +281,7 @@ profileRouter.patch("/me/education/:educId", auth, async (req, res) => {
   const educId = req.params.educId;
   const userId = req.user._id;
 
-  const validFields = [
-    "school",
-    "degree",
-    "fieldofstudy",
-    "from",
-    "to",
-    "current",
-    "description",
-  ];
-  const isInvalidRequest = Object.keys(req.body).some(
-    (field) => !validFields.includes(field)
-  );
-  if (isInvalidRequest) {
+  if (isInvalidEducRequest(req.body)) {
     return res.status(400).json({
       errors: [{ msg: "there are some invalid fields in your request" }],
     });
