@@ -5,10 +5,10 @@ const auth = async function (req, res, next) {
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
     if (!token) {
-      return res.status(400).json({
+      return res.status(404).json({
         errors: [
           {
-            msg: "this is a proteceted route. Please provide a bearer token",
+            msg: "user not authorized",
           },
         ],
       });
@@ -20,7 +20,7 @@ const auth = async function (req, res, next) {
       "tokens.token": token,
     });
     if (!user) {
-      return res.status(400).json({ errors: [{ msg: "user not found" }] });
+      return res.status(404).json({ errors: [{ msg: "user not authorized" }] });
     }
     req.user = user;
     req.token = token;
