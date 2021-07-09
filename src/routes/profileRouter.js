@@ -3,6 +3,7 @@ const User = require("../db/models/User");
 const Profile = require("../db/models/Profile");
 const auth = require("../middleware/auth");
 const { check, validationResult } = require("express-validator");
+const fetchGithub = require("../utils/fetchGithub");
 
 const profileRouter = express.Router();
 
@@ -142,6 +143,20 @@ profileRouter.get("/", async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({ errors: [{ msg: "" }] });
+  }
+});
+
+// route: GET /api/profile/github/:username
+// fetches github repos of requested user
+// public
+profileRouter.get("/github/:username", async (req, res) => {
+  try {
+    const { data } = await fetchGithub(req.params.username);
+    console.log(data);
+    return res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json();
   }
 });
 
