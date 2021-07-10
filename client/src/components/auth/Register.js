@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { setAlert } from "../../actions/alerts";
+import register from "../../actions/auth";
 
-const Register = () => {
+const Register = ({ setAlert, register }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,16 +17,19 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.password2)
+    if (formData.password !== formData.password2) {
+      setAlert("danger", "Passwords must match");
       return console.log("failure. passwords should match");
+    }
 
     const formToSubmit = { ...formData };
     delete formToSubmit.password2;
     console.log(formToSubmit);
+    register(formToSubmit);
   };
 
   return (
-    <section className="container">
+    <React.Fragment>
       <h1 className="large text-primary">Sign Up</h1>
       <p className="lead">
         <i className="fas fa-user"></i> Create Your Account
@@ -35,8 +41,8 @@ const Register = () => {
             placeholder="Name"
             name="name"
             value={formData.name}
-            onChange={(e) => onChange(e)}
             required
+            onChange={(e) => onChange(e)}
           />
         </div>
         <div className="form-group">
@@ -45,6 +51,7 @@ const Register = () => {
             placeholder="Email Address"
             name="email"
             value={formData.email}
+            required
             onChange={(e) => onChange(e)}
             autoComplete="username"
           />
@@ -80,8 +87,8 @@ const Register = () => {
       <p className="my-1">
         Already have an account? <Link to="/login">Sign In</Link>
       </p>
-    </section>
+    </React.Fragment>
   );
 };
 
-export default Register;
+export default connect(null, { setAlert, register })(Register);

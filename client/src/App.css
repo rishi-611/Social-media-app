@@ -1,7 +1,7 @@
 /* Global Styles */
 :root {
-  --primary-color: #17a2b8;
-  --dark-color: #343a40;
+  --primary-color: #767eeb;
+  --dark-color: #191831;
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
   --success-color: #28a745;
@@ -308,7 +308,6 @@ button {
   z-index: 1;
   width: 100%;
   top: 0;
-  border-bottom: solid 1px var(--primary-color);
   opacity: 0.9;
 }
 
@@ -320,6 +319,7 @@ button {
   color: #fff;
   padding: 0.45rem;
   margin: 0 0.25rem;
+  transition: all 0.4s ease-out;
 }
 
 .navbar a:hover {

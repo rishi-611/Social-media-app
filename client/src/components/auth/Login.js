@@ -18,7 +18,7 @@ const Login = () => {
   };
 
   return (
-    <section className="container">
+    <React.Fragment>
       <h1 className="large text-primary">Sign In</h1>
       <p className="lead">
         <i className="fas fa-user"></i> Login to your account
@@ -53,9 +53,9 @@ const Login = () => {
         <input type="submit" className="btn btn-primary" value="Login" />
       </form>
       <p className="my-1">
-        Don't have an account? <Link to="/login">Sign Up</Link>
+        Don't have an account? <Link to="/register">Sign Up</Link>
       </p>
-    </section>
+    </React.Fragment>
   );
 };
 

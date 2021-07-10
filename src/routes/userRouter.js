@@ -43,7 +43,7 @@ userRouter.post(
       const userAlreadyExists = await User.findOne({ email });
       if (userAlreadyExists) {
         return res.status(400).json({
-          errors: [{ msg: "User will the same email address already exists" }],
+          errors: [{ msg: "User with the same email address already exists" }],
         });
       }
       // get jwt token
