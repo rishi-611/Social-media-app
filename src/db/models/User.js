@@ -35,9 +35,9 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-UserSchema.statics.findByCredentials = async function (name, password) {
+UserSchema.statics.findByCredentials = async function (email, password) {
   try {
-    const user = await User.findOne({ name });
+    const user = await User.findOne({ email });
     if (!user) {
       return null;
     }

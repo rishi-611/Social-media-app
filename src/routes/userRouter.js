@@ -60,15 +60,15 @@ userRouter.post(
 
 // login existing user
 userRouter.post("/login", async (req, res) => {
-  const { name, password } = req.body;
-  if (!name || !password) {
+  const { email, password } = req.body;
+  if (!email || !password) {
     return res
       .status(400)
       .json({ errors: [{ msg: "You must provide username and password" }] });
   }
-  const user = await User.findByCredentials(name, password);
+  const user = await User.findByCredentials(email, password);
   if (!user) {
-    return res.status(400).json({ errprs: [{ msg: "Invalid credentials" }] });
+    return res.status(400).json({ errors: [{ msg: "Invalid credentials" }] });
   }
 
   const token = await user.getAuthToken();
