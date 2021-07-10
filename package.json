@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "env-cmd -f ./config/dev.env nodemon src/index.js -e js,html,css"
+    "server": "env-cmd -f ./config/dev.env nodemon src/index.js -e js,html,css",
+    "client": "npm start --prefix client",
+    "dev": "concurrently run \"npm run server\" \"npm run client\""
   },
   "author": "rishi dubey",
   "license": "ISC",
@@ -21,6 +23,7 @@
     "mongoose": "^5.13.2"
   },
   "devDependencies": {
+    "concurrently": "^6.2.0",
     "nodemon": "^2.0.9"
   }
 }
