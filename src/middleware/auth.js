@@ -3,6 +3,16 @@ const User = require("../db/models/User");
 
 const auth = async function (req, res, next) {
   try {
+    if (!req.header("Authorization")) {
+      console.log("Authorization header missing");
+      return res.status(404).json({
+        errors: [
+          {
+            msg: "user not authorized",
+          },
+        ],
+      });
+    }
     const token = req.header("Authorization").replace("Bearer ", "");
     if (!token) {
       return res.status(404).json({

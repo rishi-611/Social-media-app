@@ -50,7 +50,7 @@ userRouter.post(
       const token = await user.getAuthToken();
       user.tokens = user.tokens.concat({ token });
       await user.save();
-      return res.status(201).json({ user, token });
+      return res.status(201).json({ token });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ errors: [{ msg: "Server error" }] });
@@ -74,7 +74,7 @@ userRouter.post("/login", async (req, res) => {
   const token = await user.getAuthToken();
   user.tokens = user.tokens.concat({ token });
   await user.save();
-  res.send({ user, token });
+  res.send({ token });
 });
 
 // logout active user (RESTRICTED)
