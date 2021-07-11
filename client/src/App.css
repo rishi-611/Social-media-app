@@ -256,6 +256,7 @@ img {
   padding: 0.4rem;
   font-size: 1.2rem;
   border: 1px solid #ccc;
+  resize: vertical;
 }
 
 .form input[type="submit"],
@@ -303,7 +304,7 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.7rem 2rem;
+  padding: 0.5rem 2rem;
   position: fixed;
   z-index: 1;
   width: 100%;

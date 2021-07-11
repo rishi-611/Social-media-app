@@ -8,6 +8,7 @@ import {
   LOGIN_FAILURE,
   USER_LOADED,
   AUTH_FAILURE,
+  LOG_OUT,
 } from "./types";
 
 // will be called when app first loads
@@ -78,7 +79,6 @@ const register =
 export const login =
   ({ email, password }) =>
   async (dispatch) => {
-    console.log("logging in");
     const config = {
       headers: {
         "Content-Type": "Application/json",
@@ -115,5 +115,16 @@ export const login =
       });
     }
   };
+
+export const logout = () => async (dispatch) => {
+  try {
+    await axios.post("/api/users/logout");
+    dispatch({
+      type: LOG_OUT,
+    });
+  } catch (err) {
+    console.log("some error");
+  }
+};
 
 export default register;

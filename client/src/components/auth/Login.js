@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { login } from "../../actions/auth";
 
-const Login = ({ login }) => {
+const Login = ({ login, authorized }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -18,6 +18,12 @@ const Login = ({ login }) => {
 
     login(formToSubmit);
   };
+
+  // redirect to profile page if authorized prop is true
+  // client should not be able to access login page if he is already logged in
+  if (authorized) {
+    return <Redirect to="/dashboard"></Redirect>;
+  }
 
   return (
     <React.Fragment>
@@ -61,4 +67,10 @@ const Login = ({ login }) => {
   );
 };
 
-export default connect(null, { login })(Login);
+const mapStateToProps = (state) => {
+  return {
+    authorized: state.auth.authenticated,
+  };
+};
+
+export default connect(mapStateToProps, { login })(Login);

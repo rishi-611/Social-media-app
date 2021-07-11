@@ -8,6 +8,10 @@ import Register from "./components/auth/Register";
 import Alert from "./components/layout/Alert";
 import store from "./store";
 import { loadUser } from "./actions/auth";
+import Logout from "./components/auth/Logout";
+import PrivateRoute from "./components/routing/PrivateRoute";
+import Dashboard from "./components/dashboard/Dashboard";
+import ProfileForm from "./components/Profile/ProfileForm";
 
 const App = () => {
   // set global auth header and user, when app renders first
@@ -23,6 +27,9 @@ const App = () => {
         <Switch>
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/logout" component={Logout} />
+          <PrivateRoute path="/dashboard" component={Dashboard} />
+          <PrivateRoute path="/profileForm" component={ProfileForm} />
         </Switch>
       </section>
     </BrowserRouter>

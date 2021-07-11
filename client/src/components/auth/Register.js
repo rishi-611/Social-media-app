@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alerts";
 import register from "../../actions/auth";
 
-const Register = ({ setAlert, register }) => {
+const Register = ({ setAlert, register, authorized }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,6 +27,11 @@ const Register = ({ setAlert, register }) => {
     console.log(formToSubmit);
     register(formToSubmit);
   };
+
+  // redirect if authorized
+  if (authorized) {
+    return <Redirect to="/dashboard"></Redirect>;
+  }
 
   return (
     <React.Fragment>
@@ -91,4 +96,8 @@ const Register = ({ setAlert, register }) => {
   );
 };
 
-export default connect(null, { setAlert, register })(Register);
+const mapStateToProps = (state) => ({
+  authorized: state.auth.authenticated,
+});
+
+export default connect(mapStateToProps, { setAlert, register })(Register);
