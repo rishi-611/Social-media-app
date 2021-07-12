@@ -1,15 +1,10 @@
 import React, { Fragment } from "react";
+import spinner from "./spinner.gif";
 
 const Spinner = () => {
   return (
     <Fragment>
-      <img
-        src="../../img/spinner.gif"
-        alt="...Loading"
-        width="200px"
-        margin="auto"
-        display="block"
-      />
+      <img className="spinner" src={spinner} alt="...Loading" />
     </Fragment>
   );
 };

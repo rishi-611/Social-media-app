@@ -576,3 +576,9 @@ button {
     padding: 0.3rem 0.4rem;
   }
 }
+
+.spinner {
+  width: 100px;
+  display: block;
+  margin: auto;
+}

@@ -18,7 +18,12 @@ const Dashboard = ({ profile, getProfile, auth }) => {
         Welcome {auth.user && <Fragment>{auth.user.name}</Fragment>}
       </p>
       {profile.profile ? (
-        <Fragment>Profile</Fragment>
+        <Fragment>
+          <p>Edit Profile</p>
+          <Link to="/profileForm">
+            <button className="btn btn-primary">Edit Profile</button>
+          </Link>
+        </Fragment>
       ) : (
         <Fragment>
           <h2>You don't have a profile right now</h2>

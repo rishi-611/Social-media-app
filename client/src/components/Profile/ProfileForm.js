@@ -1,8 +1,9 @@
 import React, { Fragment, useState } from "react";
 import { setAlert } from "../../actions/alerts";
 import { connect } from "react-redux";
+import { createProfile } from "../../actions/profile";
 
-const ProfileForm = ({ setAlert }) => {
+const ProfileForm = ({ setAlert, createProfile, history, profile }) => {
   const [formData, setFormData] = useState({
     company: "",
     website: "",
@@ -41,13 +42,19 @@ const ProfileForm = ({ setAlert }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const cleanedFormData = Object.keys(formData).filter(
-      (field) => formData[field].length > 0
-    );
-    if (!cleanedFormData.status || cleanedFormData.status === "0") {
-      return setAlert("danger", "You have to select a status");
+    let cleanedFormData = {};
+    Object.keys(formData).forEach((field) => {
+      if (formData[field].length !== 0) {
+        cleanedFormData[field] = formData[field];
+      }
+    });
+    if (cleanedFormData.status === "0") {
+      delete cleanedFormData.status;
     }
-    console.log(cleanedFormData);
+
+    // any component which is direct child of router, gets access to history object in props
+    // we need to pass it to action, if we want to use it there
+    createProfile(cleanedFormData, history, false);
   };
 
   const handleSocialBtn = () => {
@@ -114,7 +121,9 @@ const ProfileForm = ({ setAlert }) => {
   );
   return (
     <Fragment>
-      <h1 className="large text-primary">Create Your Profile</h1>
+      <h1 className="large text-primary">
+        {profile.profile ? "Update" : "Create"} Your Profile
+      </h1>
       <p className="lead">
         <i className="fas fa-user"></i> Let's get some information to make your
         profile stand out
@@ -185,7 +194,6 @@ const ProfileForm = ({ setAlert }) => {
             name="skills"
             onChange={(e) => onChange(e)}
             value={skills}
-            required
           />
           <small className="form-text">
             Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
@@ -238,4 +246,10 @@ const ProfileForm = ({ setAlert }) => {
   );
 };
 
-export default connect(null, { setAlert })(ProfileForm);
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { setAlert, createProfile })(
+  ProfileForm
+);
