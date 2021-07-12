@@ -1,6 +1,7 @@
 import axios from "axios";
 import setAuthToken from "../utils";
 import { setAlert } from "./alerts";
+import { clearProfile } from "./profile";
 import {
   REGISTRATION_FAILURE,
   REGISTRATION_SUCCESS,
@@ -9,6 +10,7 @@ import {
   USER_LOADED,
   AUTH_FAILURE,
   LOG_OUT,
+  USER_DELETED,
 } from "./types";
 
 // will be called when app first loads
@@ -124,6 +126,22 @@ export const logout = () => async (dispatch) => {
     });
   } catch (err) {
     console.log("some error");
+  }
+};
+export const deleteAccount = (history) => async (dispatch) => {
+  try {
+    await axios.delete("/api/users/me");
+
+    history.push("/");
+    dispatch(clearProfile());
+    dispatch({
+      type: USER_DELETED,
+    });
+    dispatch(setAlert("danger", "Your account was removed permanently"));
+  } catch (err) {
+    err.resonse.data.errors.forEach((error) =>
+      dispatch(setAlert("danger", error.msg))
+    );
   }
 };
 

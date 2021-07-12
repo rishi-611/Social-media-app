@@ -14,6 +14,13 @@ import Dashboard from "./components/dashboard/Dashboard";
 import ProfileForm from "./components/Profile/ProfileForm";
 import AddEducation from "./components/Profile/AddEducation";
 import AddExperience from "./components/Profile/AddExperience";
+import setAuthToken from "./utils";
+
+// this avoids bugs caused by profile getting loaded before user
+// useEffect of child comes before useEffect of parent
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 const App = () => {
   // set global auth header and user, when app renders first

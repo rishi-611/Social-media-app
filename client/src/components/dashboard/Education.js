@@ -1,7 +1,13 @@
 import React, { Fragment } from "react";
 import Moment from "react-moment";
+import { connect } from "react-redux";
+import { deleteEducation } from "../../actions/profile";
 
-const Education = ({ education }) => {
+const Education = ({ education, deleteEducation }) => {
+  const handleDeleteBtn = (e, id) => {
+    deleteEducation(id);
+  };
+
   const renderEducation = () => {
     return education.map((educField) => (
       <tr key={educField._id}>
@@ -16,7 +22,14 @@ const Education = ({ education }) => {
           )}
         </td>
         <td>
-          <button className="btn btn-danger">Delete</button>
+          <button
+            className="btn btn-danger"
+            onClick={(e) => {
+              handleDeleteBtn(e, educField._id);
+            }}
+          >
+            Delete
+          </button>
         </td>
       </tr>
     ));
@@ -40,4 +53,4 @@ const Education = ({ education }) => {
   );
 };
 
-export default Education;
+export default connect(null, { deleteEducation })(Education);

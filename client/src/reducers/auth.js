@@ -24,6 +24,8 @@ const authReducer = (state = initialState, action) => {
     case types.REGISTRATION_FAILURE:
     case types.LOGIN_FAILURE:
     case types.LOG_OUT:
+    case types.USER_DELETED:
+    case types.AUTH_FAILURE:
       localStorage.removeItem("token");
       return {
         ...state,
@@ -39,15 +41,6 @@ const authReducer = (state = initialState, action) => {
         user: payload,
         loading: false,
         authenticated: true,
-      };
-
-    case types.AUTH_FAILURE:
-      localStorage.removeItem("token");
-      return {
-        ...state,
-        token: null,
-        authenticated: false,
-        loading: false,
       };
 
     default:

@@ -3,6 +3,7 @@ const { validationResult, check } = require("express-validator");
 const gravatar = require("gravatar");
 const User = require("../db/models/User");
 const auth = require("../middleware/auth");
+const Profile = require("../db/models/Profile");
 
 const userRouter = express.Router();
 
@@ -119,11 +120,14 @@ userRouter.get("/me", auth, async (req, res) => {
 // PRIVATE
 userRouter.delete("/me", auth, async (req, res) => {
   try {
+    // delete user's profile
+    await Profile.deleteOne({ user: req.user._id });
+    // delete the user
     await req.user.remove();
     res.send(req.user);
   } catch (err) {
     console.log(err);
-    res.status(500).send({ errors: [{ msg: "server error" }] });
+    res.status(500).send({ errors: [{ msg: "Failed to delete account" }] });
   }
 });
 

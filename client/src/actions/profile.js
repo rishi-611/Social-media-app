@@ -122,4 +122,36 @@ export const addExperience = (formData, history) => async (dispatch) => {
   }
 };
 
+export const deleteEducation = (educId) => async (dispatch) => {
+  try {
+    const { data } = await axios.delete(`/api/profile/me/education/${educId}`);
+    // updated profile is received in data if success, hence we can update profile state directly
+    dispatch({
+      type: GET_PROFILE_SUCCESS,
+      payload: data,
+    });
+
+    dispatch(setAlert("success", "Education deleted"));
+  } catch (err) {
+    console.log(err.response.data);
+    dispatch(setAlert("danger", "Failed to delete education"));
+  }
+};
+
+export const deleteExperience = (expId) => async (dispatch) => {
+  try {
+    const { data } = await axios.delete(`/api/profile/me/experience/${expId}`);
+    // updated profile is received in data if success, hence we can update profile state directly
+    dispatch({
+      type: GET_PROFILE_SUCCESS,
+      payload: data,
+    });
+
+    dispatch(setAlert("success", "Experience deleted"));
+  } catch (err) {
+    console.log(err.response.data);
+    dispatch(setAlert("danger", "Failed to delete experience"));
+  }
+};
+
 export default getProfile;
