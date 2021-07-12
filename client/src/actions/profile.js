@@ -5,6 +5,8 @@ import {
   GET_PROFILE_SUCCESS,
   CLEAR_PROFILE,
   CREATE_PROFILE_SUCCESS,
+  ADD_EDUCATION_SUCCESS,
+  ADD_EXPERIENCE_SUCCESS,
 } from "./types";
 
 const getProfile = () => async (dispatch) => {
@@ -32,6 +34,7 @@ export const createProfile =
   async (dispatch) => {
     try {
       console.log(formData);
+
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +53,7 @@ export const createProfile =
       const msg = `Your Profile has been ${
         edit ? "updated" : "created"
       } successfully`;
-      setAlert("success", msg);
+      dispatch(setAlert("success", msg));
     } catch (err) {
       err.response.data.errors.forEach((error) => {
         console.log(error.msg);
@@ -62,5 +65,33 @@ export const createProfile =
 export const clearProfile = () => ({
   type: CLEAR_PROFILE,
 });
+
+export const addEducation = (formData, history) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const { data } = await axios.post(
+      "/api/profile/me/education",
+      formData,
+      config
+    );
+
+    dispatch({
+      type: ADD_EDUCATION_SUCCESS,
+      payload: data,
+    });
+
+    history.push("/dashboard");
+    dispatch(setAlert("success", "Education Added"));
+  } catch (err) {
+    console.log(err.response.data);
+    err.reponse.data.errors.forEach((error) =>
+      dispatch(setAlert("danger", error.msg))
+    );
+  }
+};
 
 export default getProfile;

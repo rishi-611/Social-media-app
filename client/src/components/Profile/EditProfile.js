@@ -1,14 +1,12 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import getProfile, { createProfile } from "../../actions/profile";
 
 const ProfileForm = ({
-  profile,
-  loading,
-  getProfile,
   createProfile,
   history,
+  getProfile,
+  profile: { profile, loading },
 }) => {
   const [formData, setFormData] = useState({
     company: "",
@@ -27,30 +25,31 @@ const ProfileForm = ({
 
   const [addSocialLinks, setAddSocialLinks] = useState(false);
 
+  //   this will be triggered only when component mounts, or loading state changes
+  // if the user has reached this page from some button click, the profile should already by loaded,
+  // and profile state will already be there, so getProfile() will not have any effect on the component,
+  // as getProfile() will never change loading, as loading is already false
+  // But if user pastes the url and accesses this component directly, useEffect will fetch profile, and
+  // loading will be then set to false, and then useEffect will be called again, and then formData will be set
   useEffect(() => {
-    // only getProfile if no profile already (if component is accessed from a  url copy paste)
-    // this will prevent an infinite loop
-    if (!profile) return getProfile();
+    getProfile();
 
     setFormData({
       company: loading || !profile.website ? "" : profile.website,
       website: loading || !profile.website ? "" : profile.website,
       location: loading || !profile.location ? "" : profile.location,
       status: loading || !profile.status ? "" : profile.status,
-      skills: loading || !profile.skills ? "" : profile.skills.join(", "),
+      skills: loading || !profile.skills ? "" : profile.skills,
       bio: loading || !profile.bio ? "" : profile.bio,
       githubusername:
         loading || !profile.githubusername ? "" : profile.githubusername,
-      youtube: loading || !profile.social.youtube ? "" : profile.social.youtube,
-      twitter: loading || !profile.social.twitter ? "" : profile.social.twitter,
-      linkedin:
-        loading || !profile.social.linkedin ? "" : profile.social.linkedin,
-      facebook:
-        loading || !profile.social.facebook ? "" : profile.social.facebook,
-      instagram:
-        loading || !profile.social.instagram ? "" : profile.social.instagram,
+      youtube: loading || !profile.social ? "" : profile.social.youtube,
+      twitter: loading || !profile.social ? "" : profile.social.twitter,
+      linkedin: loading || !profile.social ? "" : profile.social.linkedin,
+      facebook: loading || !profile.social ? "" : profile.social.facebook,
+      instagram: loading || !profile.social ? "" : profile.social.instagram,
     });
-  }, [loading, profile]);
+  }, [loading]);
 
   const {
     skills,
@@ -75,18 +74,18 @@ const ProfileForm = ({
     e.preventDefault();
     let cleanedFormData = {};
     Object.keys(formData).forEach((field) => {
-      if (formData[field]?.length !== 0) {
+      if (formData[field].length !== 0) {
         cleanedFormData[field] = formData[field];
       }
     });
     if (cleanedFormData.status === "0") {
       delete cleanedFormData.status;
     }
+    console.log(cleanedFormData);
     // any component which is direct child of router, gets access to history object in props
     // we need to pass it to action, if we want to use it there
     // if profile already exists, then edit, otherwise set edit to false
-    const edit = profile ? true : false;
-    createProfile(cleanedFormData, history, edit);
+    createProfile(cleanedFormData, history, false);
   };
 
   const handleSocialBtn = () => {
@@ -153,9 +152,7 @@ const ProfileForm = ({
   );
   return (
     <Fragment>
-      <h1 className="large text-primary">
-        {profile ? "Update" : "Create"} Your Profile
-      </h1>
+      <h1 className="large text-primary">Create Your Profile</h1>
       <p className="lead">
         <i className="fas fa-user"></i> Let's get some information to make your
         profile stand out
@@ -270,22 +267,19 @@ const ProfileForm = ({
         {addSocialLinks && socialLinks}
 
         <input type="submit" className="btn btn-primary my-1" />
-        <Link to="/dashboard">
-          <a className="btn btn-light my-1" href="dashboard.html">
-            Go Back
-          </a>
-        </Link>
+        <a className="btn btn-light my-1" href="dashboard.html">
+          Go Back
+        </a>
       </form>
     </Fragment>
   );
 };
 
 const mapStateToProps = (state) => ({
-  profile: state.profile.profile,
-  loading: state.profile.loading,
+  profile: state.profile,
 });
 
-export default connect(mapStateToProps, {
-  getProfile,
+export default connect(null, {
   createProfile,
+  getProfile,
 })(ProfileForm);

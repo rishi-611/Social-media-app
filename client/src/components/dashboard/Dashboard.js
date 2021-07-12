@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import getProfile from "../../actions/profile";
 import { Link } from "react-router-dom";
+import DashboardActions from "./DashboardActions";
 
 const Dashboard = ({ profile, getProfile, auth }) => {
   useEffect(() => {
@@ -19,10 +20,7 @@ const Dashboard = ({ profile, getProfile, auth }) => {
       </p>
       {profile.profile ? (
         <Fragment>
-          <p>Edit Profile</p>
-          <Link to="/profileForm">
-            <button className="btn btn-primary">Edit Profile</button>
-          </Link>
+          <DashboardActions />
         </Fragment>
       ) : (
         <Fragment>

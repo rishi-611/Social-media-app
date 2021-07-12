@@ -33,6 +33,11 @@ const profileReducer = (state = initialState, action) => {
         error: {},
         repose: [],
       };
+    case types.ADD_EDUCATION_SUCCESS:
+      return {
+        ...state,
+        profile: payload,
+      };
     default:
       return state;
   }

@@ -1,7 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
-const Landing = () => {
+const Landing = ({ authenticated }) => {
+  if (authenticated) {
+    return <Redirect to="/dashboard" />;
+  }
   return (
     <React.Fragment>
       <section className="landing">
@@ -27,4 +31,8 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+const mapStateToProps = (state) => ({
+  authenticated: state.auth.authenticated,
+});
+
+export default connect(mapStateToProps)(Landing);
