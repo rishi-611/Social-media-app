@@ -4,6 +4,8 @@ import Spinner from "../layout/Spinner";
 import getProfile from "../../actions/profile";
 import { Link } from "react-router-dom";
 import DashboardActions from "./DashboardActions";
+import Education from "./Education";
+import Experience from "./Experience";
 
 const Dashboard = ({ profile, getProfile, auth }) => {
   useEffect(() => {
@@ -21,6 +23,12 @@ const Dashboard = ({ profile, getProfile, auth }) => {
       {profile.profile ? (
         <Fragment>
           <DashboardActions />
+          {profile.profile ? (
+            <Experience experience={profile.profile.experience} />
+          ) : null}
+          {profile.profile ? (
+            <Education education={profile.profile.education} />
+          ) : null}
         </Fragment>
       ) : (
         <Fragment>
