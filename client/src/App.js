@@ -13,6 +13,7 @@ import PrivateRoute from "./components/routing/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 import ProfileForm from "./components/Profile/ProfileForm";
 import AddEducation from "./components/Profile/AddEducation";
+import AddExperience from "./components/Profile/AddExperience";
 
 const App = () => {
   // set global auth header and user, when app renders first
@@ -32,6 +33,7 @@ const App = () => {
           <PrivateRoute path="/dashboard" component={Dashboard} />
           <PrivateRoute path="/profileForm" component={ProfileForm} />
           <PrivateRoute path="/addEducation" component={AddEducation} />
+          <PrivateRoute path="/addExperience" component={AddExperience} />
         </Switch>
       </section>
     </BrowserRouter>

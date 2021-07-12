@@ -34,6 +34,7 @@ const profileReducer = (state = initialState, action) => {
         repose: [],
       };
     case types.ADD_EDUCATION_SUCCESS:
+    case types.ADD_EXPERIENCE_SUCCESS:
       return {
         ...state,
         profile: payload,

@@ -94,4 +94,32 @@ export const addEducation = (formData, history) => async (dispatch) => {
   }
 };
 
+export const addExperience = (formData, history) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const { data } = await axios.post(
+      "/api/profile/me/experience",
+      formData,
+      config
+    );
+
+    dispatch({
+      type: ADD_EXPERIENCE_SUCCESS,
+      payload: data,
+    });
+
+    history.push("/dashboard");
+    dispatch(setAlert("success", "Experience Added"));
+  } catch (err) {
+    console.log(err.response.data);
+    err.reponse.data.errors.forEach((error) =>
+      dispatch(setAlert("danger", error.msg))
+    );
+  }
+};
+
 export default getProfile;

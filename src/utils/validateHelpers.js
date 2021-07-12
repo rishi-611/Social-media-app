@@ -1,4 +1,4 @@
-const ExpValidFields = [
+const expValidFields = [
   "title",
   "company",
   "location",
