@@ -26,6 +26,9 @@ const Navbar = ({ auth }) => {
           <Link to="/profiles">Profiles</Link>
         </li>
         <li>
+          <Link to="/Posts">Posts</Link>
+        </li>
+        <li>
           <Link to="/dashboard">Dashboard</Link>
         </li>
         <li>

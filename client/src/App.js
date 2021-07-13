@@ -16,6 +16,7 @@ import AddEducation from "./components/Profile/AddEducation";
 import AddExperience from "./components/Profile/AddExperience";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profiles/Profile";
+import Posts from "./components/posts/Posts";
 import setAuthToken from "./utils";
 
 // this avoids bugs caused by profile getting loaded before user
@@ -45,6 +46,7 @@ const App = () => {
           <PrivateRoute path="/profileForm" component={ProfileForm} />
           <PrivateRoute path="/addEducation" component={AddEducation} />
           <PrivateRoute path="/addExperience" component={AddExperience} />
+          <PrivateRoute path="/posts" component={Posts} />
         </Switch>
       </section>
     </BrowserRouter>
