@@ -52,6 +52,20 @@ const profileReducer = (state = initialState, action) => {
         loading: false,
         error: payload,
       };
+    case types.GET_GITHUB_REPOS_SUCCESS:
+      return {
+        ...state,
+        repos: payload,
+        loading: false,
+        error: {},
+      };
+    case types.GET_GITHUB_REPOS_FAILURE:
+      return {
+        ...state,
+        repos: [],
+        error: payload,
+        loading: false,
+      };
     default:
       return state;
   }

@@ -1,16 +1,27 @@
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
-import { getProfileById } from "../../actions/profile";
+import { getProfileById, getGithubRepos } from "../../actions/profile";
 import PropTypes from "prop-types";
 import Spinner from "../layout/Spinner";
-import moment from "moment";
 import Moment from "react-moment";
 import { Redirect, Link } from "react-router-dom";
 
-const ProfileItem = ({ match, profile, getProfileById, error }) => {
+const ProfileItem = ({
+  match,
+  profile,
+  getProfileById,
+  getGithubRepos,
+  error,
+  repos,
+}) => {
   useEffect(() => {
-    getProfileById(match.params.id);
-  }, []);
+    if (!profile) {
+      getProfileById(match.params.id);
+    }
+    if (profile?.githubusername) {
+      getGithubRepos(profile.githubusername);
+    }
+  }, [profile]);
 
   // show only those links which are provided by user
   const renderSocialLinks = () =>
@@ -94,6 +105,29 @@ const ProfileItem = ({ match, profile, getProfileById, error }) => {
       </div>
     ));
 
+  const renderRepos = () =>
+    repos.map((repo) => (
+      <div className="repo bg-white p-1 my-1" key={repo.id}>
+        <div>
+          <h4>
+            <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
+              {repo.name}
+            </a>
+          </h4>
+          {repo.description ? <p>{repo.description}</p> : null}
+        </div>
+        <div>
+          <ul>
+            <li className="badge badge-primary">
+              Stars: {repo.stargazers_count}
+            </li>
+            <li className="badge badge-dark">Watchers: {repo.watchers}</li>
+            <li className="badge badge-light">Forks: {repo.forks_count}</li>
+          </ul>
+        </div>
+      </div>
+    ));
+
   if (!profile && Object.keys(error).length === 0) {
     return <Spinner />;
   }
@@ -161,46 +195,9 @@ const ProfileItem = ({ match, profile, getProfileById, error }) => {
           <h2 className="text-primary my-1">
             <i className="fab fa-github"></i> Github Repos
           </h2>
-          <div className="repo bg-white p-1 my-1">
-            <div>
-              <h4>
-                <a href="#" target="_blank" rel="noopener noreferrer">
-                  Repo One
-                </a>
-              </h4>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repellat, laborum!
-              </p>
-            </div>
-            <div>
-              <ul>
-                <li className="badge badge-primary">Stars: 44</li>
-                <li className="badge badge-dark">Watchers: 21</li>
-                <li className="badge badge-light">Forks: 25</li>
-              </ul>
-            </div>
-          </div>
-          <div className="repo bg-white p-1 my-1">
-            <div>
-              <h4>
-                <a href="#" target="_blank" rel="noopener noreferrer">
-                  Repo Two
-                </a>
-              </h4>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repellat, laborum!
-              </p>
-            </div>
-            <div>
-              <ul>
-                <li className="badge badge-primary">Stars: 44</li>
-                <li className="badge badge-dark">Watchers: 21</li>
-                <li className="badge badge-light">Forks: 25</li>
-              </ul>
-            </div>
-          </div>
+          {repos?.length === 0
+            ? `${profile.user.name} doesn't have any repos`
+            : renderRepos()}
         </div>
       </div>
     </Fragment>
@@ -209,11 +206,15 @@ const ProfileItem = ({ match, profile, getProfileById, error }) => {
 
 ProfileItem.propTypes = {
   getProfileById: PropTypes.func.isRequired,
+  getGithubRepos: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   profile: state.profile.profile,
   error: state.profile.error,
+  repos: state.profile.repos,
 });
 
-export default connect(mapStateToProps, { getProfileById })(ProfileItem);
+export default connect(mapStateToProps, { getProfileById, getGithubRepos })(
+  ProfileItem
+);

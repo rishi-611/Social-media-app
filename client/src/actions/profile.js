@@ -11,6 +11,8 @@ import {
   GET_PROFILES_FAILURE,
   GET_PROFILE_BYID_FAILURE,
   GET_PROFILE_BYID_SUCCESS,
+  GET_GITHUB_REPOS_SUCCESS,
+  GET_GITHUB_REPOS_FAILURE,
 } from "./types";
 
 const getProfile = () => async (dispatch) => {
@@ -189,6 +191,22 @@ export const deleteExperience = (expId) => async (dispatch) => {
   } catch (err) {
     console.log(err.response.data);
     dispatch(setAlert("danger", "Failed to delete experience"));
+  }
+};
+
+export const getGithubRepos = (username) => async (dispatch) => {
+  try {
+    const { data } = await axios.get("/api/profile/github/" + username);
+    dispatch({
+      type: GET_GITHUB_REPOS_SUCCESS,
+      payload: data,
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_GITHUB_REPOS_FAILURE,
+      payload: "failed to fetch github repos",
+    });
+    dispatch(setAlert("danger", "failed to fetch github repos"));
   }
 };
 
