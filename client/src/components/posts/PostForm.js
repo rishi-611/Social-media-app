@@ -8,9 +8,13 @@ const PostForm = ({ createPost }) => {
     text: "",
   });
 
-  const onSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("post onSubmit");
     createPost(formData);
+    setFormData({
+      text: "",
+    });
   };
 
   const onChange = (e) =>
@@ -20,7 +24,7 @@ const PostForm = ({ createPost }) => {
       <div className="bg-primary p">
         <h3>Say Something...</h3>
       </div>
-      <form className="form my-1" onSubmit={(e) => onSubmit(e)}>
+      <form className="form my-1" onSubmit={handleSubmit}>
         <textarea
           name="text"
           cols="30"

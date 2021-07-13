@@ -64,7 +64,7 @@ postRouter.put("/like/:postId", auth, async (req, res) => {
     };
     post.likes.unshift(like);
     await post.save();
-    res.json(post);
+    res.json(post.likes);
   } catch (err) {
     console.log(err);
     if (err.kind === "ObjectId") {
@@ -103,7 +103,7 @@ postRouter.delete("/like/:postId", auth, async (req, res) => {
 
     post.likes.splice(likeIndex, 1);
     await post.save();
-    res.json(post);
+    res.json(post.likes);
   } catch (err) {
     console.log(err);
     if (err.kind === "ObjectId") {
@@ -250,7 +250,7 @@ postRouter.delete("/:postId", auth, async (req, res) => {
     res.json(post);
   } catch (err) {
     if (err.kind == "ObjectId") {
-      return res.status(400).json();
+      return res.status(400).json("Invalid post id");
     }
     res.status(500).json({ errors: [{ msg: "invalid post id" }] });
   }

@@ -1,25 +1,37 @@
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { getPosts } from "../../actions/posts";
+import { getPosts, addLike, removeLike, deletePost } from "../../actions/posts";
 import Spinner from "../layout/Spinner";
 import { Link, Redirect } from "react-router-dom";
 import Moment from "react-moment";
 import PostForm from "./PostForm";
 
-const Posts = ({ postObj, getPosts, authenticated }) => {
+const Posts = ({
+  postObj,
+  getPosts,
+  addLike,
+  removeLike,
+  authenticated,
+  auth,
+  deletePost,
+}) => {
   useEffect(() => {
     getPosts();
-  }, [postObj]);
+  }, [getPosts]);
 
-  const { posts, post, loading, error } = postObj;
+  const { posts, loading } = postObj;
 
   if (!authenticated) {
     return <Redirect to="/login" />;
   }
-  if (loading) {
+  if (loading || !posts) {
     return <Spinner />;
   }
+
+  const handleDeleteClick = (e, postId) => {
+    deletePost(postId);
+  };
 
   const renderPosts = () =>
     posts.map((post) => (
@@ -35,24 +47,37 @@ const Posts = ({ postObj, getPosts, authenticated }) => {
           <p className="post-date">
             Posted on <Moment format="DD/MM/YY">{post.date}</Moment>
           </p>
-          <button type="button" className="btn btn-light">
+          <button
+            type="button"
+            className="btn btn-light"
+            onClick={() => addLike(post._id)}
+          >
             <i className="fas fa-thumbs-up"></i>
             <span>{post.likes.length}</span>
           </button>
-          <button type="button" className="btn btn-light">
+          <button
+            type="button"
+            className="btn btn-light"
+            onClick={() => removeLike(post._id)}
+          >
             <i className="fas fa-thumbs-down"></i>
           </button>
           <Link to={`/posts/${post._id}`} className="btn btn-primary">
             Comments{" "}
             <span className="comment-count">{post.comments.length}</span>
           </Link>
-          <button type="button" className="btn btn-danger">
-            <i className="fas fa-times"></i>
-          </button>
+          {post.user === auth.user?._id ? (
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={(e) => handleDeleteClick(e, post._id)}
+            >
+              <i className="fas fa-times"></i>
+            </button>
+          ) : null}
         </div>
       </div>
     ));
-
   return (
     <Fragment>
       <h1 className="large text-primary">Posts</h1>
@@ -72,11 +97,21 @@ const Posts = ({ postObj, getPosts, authenticated }) => {
 Posts.propTypes = {
   postObj: PropTypes.object.isRequired,
   getPosts: PropTypes.func.isRequired,
+  addLike: PropTypes.func.isRequired,
+  removeLike: PropTypes.func.isRequired,
+  deletePost: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   postObj: state.posts,
   authenticated: state.auth.authenticated,
+  auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getPosts })(Posts);
+export default connect(mapStateToProps, {
+  getPosts,
+  addLike,
+  removeLike,
+  deletePost,
+})(Posts);

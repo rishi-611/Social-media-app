@@ -32,7 +32,7 @@ const postsReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: null,
-        post: payload,
+        posts: [...state.posts, payload],
       };
 
     case types.CREATE_POST_FAILURE:
@@ -44,6 +44,21 @@ const postsReducer = (state = initialState, action) => {
         post: null,
       };
 
+    case types.ADD_LIKE_SUCCESS:
+    case types.REMOVE_LIKE_SUCCESS:
+      // for the updated post in posts array, replace the old post with the new post
+      return {
+        ...state,
+        posts: state.posts.map((post) =>
+          post._id === payload._id ? { ...post, likes: payload.likes } : post
+        ),
+      };
+
+    case types.DELETE_POST_SUCCESS:
+      return {
+        ...state,
+        posts: state.posts.filter((post) => post._id !== payload._id),
+      };
     default:
       return state;
   }
