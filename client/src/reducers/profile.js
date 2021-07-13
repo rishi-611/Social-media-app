@@ -13,12 +13,17 @@ const profileReducer = (state = initialState, action) => {
   switch (type) {
     case types.GET_PROFILE_SUCCESS:
     case types.CREATE_PROFILE_SUCCESS:
+    case types.GET_PROFILE_BYID_SUCCESS:
+    case types.ADD_EDUCATION_SUCCESS:
+    case types.ADD_EXPERIENCE_SUCCESS:
       return {
         ...state,
         profile: payload,
         loading: false,
+        error: {},
       };
     case types.GET_PROFILE_ERROR:
+    case types.GET_PROFILE_BYID_FAILURE:
       return {
         ...state,
         profile: null,
@@ -31,13 +36,21 @@ const profileReducer = (state = initialState, action) => {
         profile: null,
         loading: false,
         error: {},
-        repose: [],
+        repos: [],
       };
-    case types.ADD_EDUCATION_SUCCESS:
-    case types.ADD_EXPERIENCE_SUCCESS:
+
+    case types.GET_PROFILES_SUCCESS:
       return {
         ...state,
-        profile: payload,
+        profiles: payload,
+        loading: false,
+      };
+    case types.GET_PROFILES_FAILURE:
+      return {
+        ...state,
+        profiles: [],
+        loading: false,
+        error: payload,
       };
     default:
       return state;

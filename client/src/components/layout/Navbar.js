@@ -7,7 +7,7 @@ const Navbar = ({ auth }) => {
     return (
       <ul>
         <li>
-          <Link to="#!">Developers</Link>
+          <Link to="/profiles">Profiles</Link>
         </li>
         <li>
           <Link to="register">Register</Link>
@@ -22,6 +22,9 @@ const Navbar = ({ auth }) => {
   const renderAuthLinks = () => {
     return (
       <ul>
+        <li>
+          <Link to="/profiles">Profiles</Link>
+        </li>
         <li>
           <Link to="/dashboard">Dashboard</Link>
         </li>

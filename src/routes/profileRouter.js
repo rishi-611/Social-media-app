@@ -146,7 +146,7 @@ profileRouter.get("/", async (req, res) => {
     return res.json(profiles);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ errors: [{ msg: "" }] });
+    res.status(500).json({ errors: [{ msg: "Server error" }] });
   }
 });
 

@@ -7,6 +7,10 @@ import {
   CREATE_PROFILE_SUCCESS,
   ADD_EDUCATION_SUCCESS,
   ADD_EXPERIENCE_SUCCESS,
+  GET_PROFILES_SUCCESS,
+  GET_PROFILES_FAILURE,
+  GET_PROFILE_BYID_FAILURE,
+  GET_PROFILE_BYID_SUCCESS,
 } from "./types";
 
 const getProfile = () => async (dispatch) => {
@@ -24,6 +28,40 @@ const getProfile = () => async (dispatch) => {
         msg: err.response.statusText,
       },
     });
+  }
+};
+
+export const getAllProfiles = () => async (dispatch) => {
+  try {
+    const { data } = await axios.get("/api/profile");
+
+    dispatch({
+      type: GET_PROFILES_SUCCESS,
+      payload: data,
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_PROFILES_FAILURE,
+      payload: "could not fetch users",
+    });
+    dispatch(setAlert("danger", "failed to fetch profiles"));
+  }
+};
+
+export const getProfileById = (id) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(`/api/profile/${id}`);
+
+    dispatch({
+      type: GET_PROFILE_BYID_SUCCESS,
+      payload: data,
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_PROFILE_BYID_FAILURE,
+      payload: "could not fetch user",
+    });
+    dispatch(setAlert("danger", "failed to fetch profile"));
   }
 };
 

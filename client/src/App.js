@@ -14,6 +14,8 @@ import Dashboard from "./components/dashboard/Dashboard";
 import ProfileForm from "./components/Profile/ProfileForm";
 import AddEducation from "./components/Profile/AddEducation";
 import AddExperience from "./components/Profile/AddExperience";
+import Profiles from "./components/profiles/Profiles";
+import Profile from "./components/profiles/Profile";
 import setAuthToken from "./utils";
 
 // this avoids bugs caused by profile getting loaded before user
@@ -37,6 +39,8 @@ const App = () => {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/logout" component={Logout} />
+          <Route exact path="/profiles" component={Profiles} />
+          <Route exact path="/profiles/:id" component={Profile} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
           <PrivateRoute path="/profileForm" component={ProfileForm} />
           <PrivateRoute path="/addEducation" component={AddEducation} />
