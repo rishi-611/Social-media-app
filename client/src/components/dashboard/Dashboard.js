@@ -30,7 +30,7 @@ const Dashboard = ({ profile, getProfile, auth, deleteAccount, history }) => {
       </p>
       {profile.profile ? (
         <Fragment>
-          <DashboardActions />
+          <DashboardActions userId={auth.user?._id ? auth.user._id : null} />
           {profile.profile && profile.profile?.experience?.length > 0 ? (
             <Experience experience={profile.profile.experience} />
           ) : null}

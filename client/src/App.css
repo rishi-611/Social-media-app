@@ -230,6 +230,7 @@ img {
 
 .round-img {
   border-radius: 50%;
+  box-shadow: 0 0 10px var(--dark-color);
 }
 
 .line {
@@ -508,7 +509,26 @@ button {
 }
 
 /* Mobile Styles */
+
+@media (max-width: 820px) {
+  .centered-container {
+    display: flex;
+    min-width: 200px;
+    width: 40%;
+    margin: auto;
+    justify-content: space-around;
+  }
+
+  .centered-container .btn {
+    margin-right: 0.6rem;
+  }
+}
+
 @media (max-width: 700px) {
+  table {
+    margin: auto;
+  }
+
   body {
     text-align: center;
   }
@@ -570,8 +590,9 @@ button {
 
   .profile-top img,
   .profile img {
-    width: 200px;
+    width: 100px;
     margin: auto;
+    margin-bottom: 0.2rem;
   }
 
   .profile-grid {
@@ -605,7 +626,7 @@ button {
     display: flex;
     flex-direction: column;
     min-width: 200px;
-    min-height: 200px;
+    min-height: 230px;
     width: 60%;
     margin: auto;
     justify-content: space-around;
@@ -636,6 +657,21 @@ button {
 
   .posts-btn-container span .btn {
     min-width: 65px;
+  }
+
+  .p-1 {
+    padding: 0.5rem 0.8rem;
+  }
+
+  .profile-github .repo {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .profile-exp > div,
+  .profile-edu > div {
+    margin-bottom: 0.7rem;
+    padding-bottom: 0.7rem;
   }
 }
 

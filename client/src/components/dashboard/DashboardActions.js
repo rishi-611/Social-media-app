@@ -1,9 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const DashboardActions = () => {
+const DashboardActions = ({ userId }) => {
   return (
     <div className="centered-container">
+      {userId ? (
+        <Link to={`/profiles/${userId}`} className="btn btn-dark centered-btns">
+          View Profile
+        </Link>
+      ) : null}
       <Link to="/profileForm" className="btn btn-dark centered-btns">
         Edit Profile
       </Link>

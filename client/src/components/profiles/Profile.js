@@ -148,7 +148,6 @@ const ProfileItem = ({
     console.log(error);
     return <Redirect to="/profiles"></Redirect>;
   }
-
   return (
     <Fragment>
       <Link to="/profiles" className="btn btn-dark">
@@ -164,7 +163,7 @@ const ProfileItem = ({
           />
           <h1 className="large">{profile.user.name}</h1>
           <p className="lead">
-            {profile.user.status}{" "}
+            {profile.status}{" "}
             {profile.user.company ? `at ${profile.user.company}` : ""}
           </p>
           {profile.location ? <p>{profile.location}</p> : null}
