@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 
 const DashboardActions = () => {
   return (
-    <div>
-      <Link to="/profileForm" className="btn btn-light">
+    <div className="centered-container">
+      <Link to="/profileForm" className="btn btn-dark centered-btns">
         Edit Profile
       </Link>
-      <Link to="/addExperience" className="btn btn-light">
+      <Link to="/addExperience" className="btn btn-dark centered-btns">
         Add Experience
       </Link>
-      <Link to="/addEducation" className="btn btn-light">
+      <Link to="/addEducation" className="btn btn-dark centered-btns">
         Add Education
       </Link>
     </div>

@@ -13,7 +13,7 @@ const Experience = ({ experience, deleteExperience }) => {
       <tr key={expField._id}>
         <td>{expField.company}</td>
         <td>{expField.title}</td>
-        <td>
+        <td className="hide-sm">
           <Moment format="DD/MM/YYYY">{expField.from}</Moment>:{" "}
           {expField.current ? (
             "Now"
@@ -38,17 +38,19 @@ const Experience = ({ experience, deleteExperience }) => {
   return (
     <Fragment>
       <h2 className="my-2">Experience Credentials</h2>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Company</th>
-            <th>Title</th>
-            <th>Duration</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>{renderExperience()}</tbody>
-      </table>
+      <div className="table-wrapper">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Title</th>
+              <th className="hide-sm">Duration</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>{renderExperience()}</tbody>
+        </table>
+      </div>
     </Fragment>
   );
 };

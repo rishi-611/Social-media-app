@@ -2,9 +2,9 @@
 :root {
   --primary-color: #767eeb;
   --dark-color: #191831;
-  --light-color: #f4f4f4;
+  --light-color: #d1d3ff;
   --danger-color: #dc3545;
-  --success-color: #28a745;
+  --success-color: #30ac4d;
 }
 
 * {
@@ -17,7 +17,7 @@ body {
   font-family: "Roboto", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  background-color: #fff;
+  background-color: #ecedff;
   color: #333;
 }
 
@@ -141,6 +141,7 @@ img {
 
 .btn {
   display: inline-block;
+  text-align: center;
   background: var(--light-color);
   color: #333;
   padding: 0.4rem 1.3rem;
@@ -508,8 +509,11 @@ button {
 
 /* Mobile Styles */
 @media (max-width: 700px) {
+  body {
+    text-align: center;
+  }
   .container {
-    margin-top: 7rem;
+    margin-top: 6.5rem;
   }
 
   .hide-sm {
@@ -527,6 +531,10 @@ button {
 
   .lead {
     font-size: 1rem;
+  }
+
+  .btn {
+    padding: 0.3rem 0.7rem;
   }
 
   /* Navbar */
@@ -592,9 +600,43 @@ button {
   .post button {
     padding: 0.3rem 0.4rem;
   }
+
+  .centered-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    min-height: 200px;
+    width: 60%;
+    margin: auto;
+    justify-content: space-around;
+  }
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.6rem;
+    text-align: left;
+  }
+
+  .table th {
+    background: var(--light-color);
+  }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 360px) {
+  .posts-btn-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .posts-btn-container span {
+    margin: 0.2rem auto;
+  }
+
+  .posts-btn-container span .btn {
+    min-width: 65px;
+  }
 }
 
 .spinner {

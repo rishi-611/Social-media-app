@@ -8,19 +8,19 @@ const Navbar = ({ auth }) => {
       <ul>
         <li>
           <Link to="/profiles" title="Profiles">
-            <i class="fas fa-solid fa-user"></i>
+            <i className="fas fa-solid fa-user"></i>
             <span className="hide-sm mx">Profiles</span>
           </Link>
         </li>
         <li>
           <Link to="/register" title="Register">
-            <i class="fas fa-solid fa-user-plus"></i>
+            <i className="fas fa-solid fa-user-plus"></i>
             <span className="hide-sm mx">Register</span>
           </Link>
         </li>
         <li>
           <Link to="/login" title="Login">
-            <i class="fas fa-solid fa-power-off"></i>
+            <i className="fas fa-solid fa-power-off"></i>
             <span className="hide-sm mx">Login</span>
           </Link>
         </li>
@@ -33,25 +33,25 @@ const Navbar = ({ auth }) => {
       <ul>
         <li>
           <Link to="/profiles" title="profiles">
-            <i class="fas fa-solid fa-user"></i>
+            <i className="fas fa-solid fa-user"></i>
             <span className="hide-sm mx">Profiles</span>
           </Link>
         </li>
         <li>
           <Link to="/Posts" title="posts">
-            <i class="fas fa-solid fa-blog"></i>
+            <i className="fas fa-solid fa-blog"></i>
             <span className="hide-sm mx">Posts</span>
           </Link>
         </li>
         <li>
           <Link to="/dashboard" title="dashboard">
-            <i class="fas fa-solid fa-address-card"></i>
+            <i className="fas fa-solid fa-address-card"></i>
             <span className="hide-sm mx">Dashboard</span>
           </Link>
         </li>
         <li>
           <Link to="/logout" title="logout">
-            <i class="fas fa-solid fa-power-off"></i>
+            <i className="fas fa-solid fa-power-off"></i>
             <span className="hide-sm mx">Logout</span>
           </Link>
         </li>
