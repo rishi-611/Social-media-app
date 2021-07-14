@@ -39,7 +39,7 @@ export const getPosts = () => async (dispatch) => {
 
 export const getPostById = (postId) => async (dispatch) => {
   try {
-    const { data } = await axios.get("api/posts/" + postId);
+    const { data } = await axios.get("/api/posts/" + postId);
     dispatch({
       type: types.GET_POST_SUCCESS,
       payload: data,
@@ -79,6 +79,33 @@ export const removeLike = (postId) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: types.REMOVE_LIKE_FAILURE,
+    });
+  }
+};
+
+export const addComment = (postId, text) => async (dispatch) => {
+  try {
+    const config = {
+      "Content-Type": "application/json",
+    };
+    const body = {
+      text,
+    };
+    console.log(body);
+    const { data } = await axios.put(
+      `/api/posts/comment/${postId}`,
+      body,
+      config
+    );
+    dispatch({
+      type: types.ADD_COMMENT_SUCCESS,
+      payload: { _id: postId, comments: data },
+    });
+    dispatch(setAlert("success", "Comment added"));
+  } catch (err) {
+    console.log(err.response);
+    dispatch({
+      type: types.ADD_COMMENT_FAILURE,
     });
   }
 };

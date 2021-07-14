@@ -140,7 +140,7 @@ postRouter.put(
       };
       post.comments.unshift(comment);
       await post.save();
-      res.json(post);
+      res.json(post.comments);
     } catch (err) {
       console.log(err);
       if (err.kind === "ObjectId") {
@@ -172,10 +172,7 @@ postRouter.delete("/comment/:postId/:commentId", auth, async (req, res) => {
     }
     // only the author of post or the user who created can delete the comment
     const comment = post.comments[commentIndex];
-    console.log(
-      user._id.toString() !== comment.user.toString() &&
-        user._id.toString() !== post.user.toString()
-    );
+
     if (
       user._id.toString() !== comment.user.toString() &&
       user._id.toString() !== post.user.toString()
@@ -187,7 +184,7 @@ postRouter.delete("/comment/:postId/:commentId", auth, async (req, res) => {
 
     post.comments.splice(commentIndex, 1);
     await post.save();
-    res.json(post);
+    res.json(post.comments);
   } catch (err) {
     console.log(err);
     if (err.kind === "ObjectId") {

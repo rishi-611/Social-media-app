@@ -19,7 +19,6 @@ const Posts = ({
   useEffect(() => {
     getPosts();
   }, [getPosts]);
-
   const { posts, loading } = postObj;
 
   if (!authenticated) {
@@ -34,8 +33,8 @@ const Posts = ({
   };
 
   const renderPosts = () =>
-    posts.map((post) => (
-      <div className="post bg-white p-1 my-1" key={post._id}>
+    posts.map((post, i) => (
+      <div className="post bg-white p-1 my-1" key={i}>
         <div>
           <Link to={`/profiles/${post.user}`}>
             <img className="round-img" src={post.avatar} alt="user avatar" />

@@ -27,7 +27,6 @@ const postsReducer = (state = initialState, action) => {
       };
 
     case types.CREATE_POST_SUCCESS:
-    case types.GET_POST_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -49,9 +48,30 @@ const postsReducer = (state = initialState, action) => {
       // for the updated post in posts array, replace the old post with the new post
       return {
         ...state,
+        loading: false,
         posts: state.posts.map((post) =>
           post._id === payload._id ? { ...post, likes: payload.likes } : post
         ),
+      };
+
+    case types.ADD_COMMENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        posts: state.posts.map((post) =>
+          post._id === payload._id
+            ? { ...post, comments: payload.comments }
+            : post
+        ),
+        post: { ...state.post, comments: payload.comments },
+      };
+
+    case types.GET_POST_SUCCESS:
+      return {
+        ...state,
+        post: payload,
+        error: null,
+        loading: false,
       };
 
     case types.DELETE_POST_SUCCESS:
