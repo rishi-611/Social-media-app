@@ -156,7 +156,6 @@ profileRouter.get("/", async (req, res) => {
 profileRouter.get("/github/:username", async (req, res) => {
   try {
     const { data } = await fetchGithub(req.params.username);
-    console.log(data);
     return res.status(200).json(data);
   } catch (err) {
     console.log(err);

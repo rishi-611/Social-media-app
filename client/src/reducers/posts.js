@@ -55,6 +55,7 @@ const postsReducer = (state = initialState, action) => {
       };
 
     case types.ADD_COMMENT_SUCCESS:
+    case types.REMOVE_COMMENT_SUCCESS:
       return {
         ...state,
         loading: false,

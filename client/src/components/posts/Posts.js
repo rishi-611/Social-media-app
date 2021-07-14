@@ -21,7 +21,7 @@ const Posts = ({
   }, [getPosts]);
   const { posts, loading } = postObj;
 
-  if (!authenticated) {
+  if (!loading && !authenticated) {
     return <Redirect to="/login" />;
   }
   if (loading || !posts) {
@@ -29,7 +29,9 @@ const Posts = ({
   }
 
   const handleDeleteClick = (e, postId) => {
-    deletePost(postId);
+    if (window.confirm("Delete Post? This action can NOT be undone?")) {
+      deletePost(postId);
+    }
   };
 
   const renderPosts = () =>

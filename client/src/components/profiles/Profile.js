@@ -1,6 +1,10 @@
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
-import { getProfileById, getGithubRepos } from "../../actions/profile";
+import {
+  getProfileById,
+  getGithubRepos,
+  clearProfile,
+} from "../../actions/profile";
 import PropTypes from "prop-types";
 import Spinner from "../layout/Spinner";
 import Moment from "react-moment";
@@ -10,10 +14,17 @@ const ProfileItem = ({
   match,
   profile,
   getProfileById,
+  clearProfile,
   getGithubRepos,
   error,
   repos,
 }) => {
+  useEffect(() => {
+    // on component unmount, clean up the profile from state
+    // otherwise will cause error in loading a profile if the state already has a profile
+    return () => clearProfile();
+  }, []);
+
   useEffect(() => {
     if (!profile) {
       getProfileById(match.params.id);
@@ -207,6 +218,7 @@ const ProfileItem = ({
 ProfileItem.propTypes = {
   getProfileById: PropTypes.func.isRequired,
   getGithubRepos: PropTypes.func.isRequired,
+  clearProfile: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -215,6 +227,8 @@ const mapStateToProps = (state) => ({
   repos: state.profile.repos,
 });
 
-export default connect(mapStateToProps, { getProfileById, getGithubRepos })(
-  ProfileItem
-);
+export default connect(mapStateToProps, {
+  getProfileById,
+  getGithubRepos,
+  clearProfile,
+})(ProfileItem);

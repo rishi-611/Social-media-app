@@ -126,6 +126,19 @@ img {
   margin: 3rem 0;
 }
 
+.mx {
+  margin: 0 0.3rem;
+}
+.mx-1 {
+  margin: 0 1rem;
+}
+.mx-2 {
+  margin: 0 2rem;
+}
+.mx-3 {
+  margin: 0 3rem;
+}
+
 .btn {
   display: inline-block;
   background: var(--light-color);
@@ -333,9 +346,13 @@ button {
 
 /* Landing Page */
 .landing {
-  position: relative;
+  position: absolute;
   background: url("./img/showcase.jpg") no-repeat center center/cover;
-  height: 100vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
 }
 
 .landing-inner {
@@ -382,7 +399,7 @@ button {
 }
 
 .profile-top img {
-  width: 250px;
+  width: 120px;
 }
 
 .profile-top .icons a {
@@ -492,7 +509,7 @@ button {
 /* Mobile Styles */
 @media (max-width: 700px) {
   .container {
-    margin-top: 8rem;
+    margin-top: 7rem;
   }
 
   .hide-sm {
@@ -575,6 +592,9 @@ button {
   .post button {
     padding: 0.3rem 0.4rem;
   }
+}
+
+@media (max-width: 400px) {
 }
 
 .spinner {

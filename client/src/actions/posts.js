@@ -3,10 +3,13 @@ import { setAlert } from "./alerts";
 import axios from "axios";
 
 export const createPost = (formData) => async (dispatch) => {
-  console.log("posting");
   try {
-    const { data } = await axios.post("/api/posts", formData);
-    console.log(data);
+    const config = {
+      headers: {
+        "Content-type": "Application/json",
+      },
+    };
+    const { data } = await axios.post("/api/posts", formData, config);
     dispatch({
       type: types.CREATE_POST_SUCCESS,
       payload: data,
@@ -86,12 +89,13 @@ export const removeLike = (postId) => async (dispatch) => {
 export const addComment = (postId, text) => async (dispatch) => {
   try {
     const config = {
-      "Content-Type": "application/json",
+      headers: {
+        "Content-Type": "Application/json",
+      },
     };
     const body = {
       text,
     };
-    console.log(body);
     const { data } = await axios.put(
       `/api/posts/comment/${postId}`,
       body,
@@ -107,6 +111,23 @@ export const addComment = (postId, text) => async (dispatch) => {
     dispatch({
       type: types.ADD_COMMENT_FAILURE,
     });
+  }
+};
+
+export const deleteComment = (postId, commentId) => async (dispatch) => {
+  try {
+    const { data } = await axios.delete(
+      `/api/posts/comment/${postId}/${commentId}`
+    );
+
+    dispatch({
+      type: types.REMOVE_COMMENT_SUCCESS,
+      payload: { _id: postId, comments: data },
+    });
+    dispatch(setAlert("success", "Comment was removed permanently"));
+  } catch (error) {
+    console.log(error.response);
+    dispatch(setAlert("danger", "failed to delete the comment"));
   }
 };
 

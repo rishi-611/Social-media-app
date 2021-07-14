@@ -7,13 +7,22 @@ const Navbar = ({ auth }) => {
     return (
       <ul>
         <li>
-          <Link to="/profiles">Profiles</Link>
+          <Link to="/profiles" title="Profiles">
+            <i class="fas fa-solid fa-user"></i>
+            <span className="hide-sm mx">Profiles</span>
+          </Link>
         </li>
         <li>
-          <Link to="/register">Register</Link>
+          <Link to="/register" title="Register">
+            <i class="fas fa-solid fa-user-plus"></i>
+            <span className="hide-sm mx">Register</span>
+          </Link>
         </li>
         <li>
-          <Link to="/login">Login</Link>
+          <Link to="/login" title="Login">
+            <i class="fas fa-solid fa-power-off"></i>
+            <span className="hide-sm mx">Login</span>
+          </Link>
         </li>
       </ul>
     );
@@ -23,16 +32,28 @@ const Navbar = ({ auth }) => {
     return (
       <ul>
         <li>
-          <Link to="/profiles">Profiles</Link>
+          <Link to="/profiles" title="profiles">
+            <i class="fas fa-solid fa-user"></i>
+            <span className="hide-sm mx">Profiles</span>
+          </Link>
         </li>
         <li>
-          <Link to="/Posts">Posts</Link>
+          <Link to="/Posts" title="posts">
+            <i class="fas fa-solid fa-blog"></i>
+            <span className="hide-sm mx">Posts</span>
+          </Link>
         </li>
         <li>
-          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/dashboard" title="dashboard">
+            <i class="fas fa-solid fa-address-card"></i>
+            <span className="hide-sm mx">Dashboard</span>
+          </Link>
         </li>
         <li>
-          <Link to="/logout">Logout</Link>
+          <Link to="/logout" title="logout">
+            <i class="fas fa-solid fa-power-off"></i>
+            <span className="hide-sm mx">Logout</span>
+          </Link>
         </li>
       </ul>
     );

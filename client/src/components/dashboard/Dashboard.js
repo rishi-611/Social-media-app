@@ -40,14 +40,13 @@ const Dashboard = ({ profile, getProfile, auth, deleteAccount, history }) => {
         </Fragment>
       ) : (
         <Fragment>
-          <h2>You don't have a profile right now</h2>
           <p>Create your profile so that people can know about you</p>
           <Link to="/profileForm">
-            <button className="btn btn-primary">Create Profile</button>
+            <button className="btn btn-primary my-1">Create Profile</button>
           </Link>
         </Fragment>
       )}
-      <div className="my-3">
+      <div className="my-2">
         <button className="btn btn-danger" onClick={handleDeleteAccBtn}>
           Delete Account
         </button>

@@ -14,7 +14,7 @@ const Post = ({
   post,
   loading,
   error,
-  CurrentUser,
+  currentUser,
 }) => {
   const [formText, setFormText] = useState("");
 
@@ -32,14 +32,14 @@ const Post = ({
     return <Spinner />;
   }
 
-  const { _id, name, text, avatar, date, user, comments, likes, currentUser } =
-    post;
+  const { _id, name, text, avatar, date, user, comments, likes } = post;
 
   const onChange = (e) => setFormText(e.target.value);
 
   const onSubmit = (e) => {
     e.preventDefault();
     addComment(_id, formText);
+    setFormText("");
   };
 
   return (
@@ -49,7 +49,7 @@ const Post = ({
       </Link>
       <div className="post bg-white p-1 my-1">
         <div>
-          <Link to={`/profile/${user}`}>
+          <Link to={`/profiles/${user}`}>
             <img className="round-img" src={avatar} alt="user avatar" />
             <h4>{name}</h4>
           </Link>
@@ -86,11 +86,15 @@ const Post = ({
       </div>
 
       <div className="comments">
-        {comments.length === 0
+        {comments?.length === 0
           ? "No comments yet"
           : comments.map((comment, i) => (
               <Fragment key={i}>
-                <Comment comment={comment} currentUser={currentUser} />
+                <Comment
+                  comment={comment}
+                  currentUser={currentUser}
+                  postId={_id}
+                />
               </Fragment>
             ))}
       </div>

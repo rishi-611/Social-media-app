@@ -89,7 +89,7 @@ const AddExperience = ({ addExperience, history }) => {
                 toggleToDate(!toDateDisabled);
               }}
             />
-            Current School or Bootcamp
+            Currently working for the company?
           </p>
         </div>
         <div className="form-group">
@@ -107,7 +107,7 @@ const AddExperience = ({ addExperience, history }) => {
             name="description"
             cols="30"
             rows="5"
-            placeholder="Program Description"
+            placeholder="Experience Description"
             value={description}
             onChange={(e) => onChange(e)}
           ></textarea>

@@ -41,14 +41,16 @@ const ProfileForm = ({
       bio: loading || !profile.bio ? "" : profile.bio,
       githubusername:
         loading || !profile.githubusername ? "" : profile.githubusername,
-      youtube: loading || !profile.social.youtube ? "" : profile.social.youtube,
-      twitter: loading || !profile.social.twitter ? "" : profile.social.twitter,
+      youtube:
+        loading || !profile.social?.youtube ? "" : profile.social.youtube,
+      twitter:
+        loading || !profile.social?.twitter ? "" : profile.social.twitter,
       linkedin:
-        loading || !profile.social.linkedin ? "" : profile.social.linkedin,
+        loading || !profile.social?.linkedin ? "" : profile.social.linkedin,
       facebook:
-        loading || !profile.social.facebook ? "" : profile.social.facebook,
+        loading || !profile.social?.facebook ? "" : profile.social.facebook,
       instagram:
-        loading || !profile.social.instagram ? "" : profile.social.instagram,
+        loading || !profile.social?.instagram ? "" : profile.social.instagram,
     });
   }, [loading, profile]);
 
@@ -270,10 +272,8 @@ const ProfileForm = ({
         {addSocialLinks && socialLinks}
 
         <input type="submit" className="btn btn-primary my-1" />
-        <Link to="/dashboard">
-          <a className="btn btn-light my-1" href="dashboard.html">
-            Go Back
-          </a>
+        <Link to="/dashboard" className="btn btn-light my-1">
+          Go Back
         </Link>
       </form>
     </Fragment>

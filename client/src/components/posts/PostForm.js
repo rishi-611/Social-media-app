@@ -10,7 +10,6 @@ const PostForm = ({ createPost }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("post onSubmit");
     createPost(formData);
     setFormData({
       text: "",
