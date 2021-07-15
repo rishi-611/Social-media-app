@@ -24,7 +24,6 @@ const Register = ({ setAlert, register, authorized }) => {
 
     const formToSubmit = { ...formData };
     delete formToSubmit.password2;
-    console.log(formToSubmit);
     register(formToSubmit);
   };
 
