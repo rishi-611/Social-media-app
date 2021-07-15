@@ -7,7 +7,8 @@
     "start": "node src/index.js",
     "server": "env-cmd -f ./config/dev.env nodemon src/index.js -e js,html,css",
     "client": "npm start --prefix client",
-    "dev": "concurrently run \"npm run server\" \"npm run client\""
+    "dev": "concurrently run \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "rishi dubey",
   "license": "ISC",
