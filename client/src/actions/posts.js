@@ -145,3 +145,11 @@ export const deletePost = (postId) => async (dispatch) => {
     dispatch(setAlert("danger", "failed to delete the post"));
   }
 };
+
+export const clearPosts = () => ({
+  type: types.CLEAR_POSTS,
+});
+
+export const clearPost = () => ({
+  type: types.CLEAR_POST,
+});

@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { getPostById, addComment } from "../../actions/posts";
+import { getPostById, addComment, clearPost } from "../../actions/posts";
 import Spinner from "../layout/Spinner";
 import Comment from "./Comment";
 import Moment from "react-moment";
@@ -15,8 +15,14 @@ const Post = ({
   loading,
   error,
   currentUser,
+  clearPost,
 }) => {
   const [formText, setFormText] = useState("");
+
+  useEffect(() => {
+    // cleanup on unmount
+    return () => clearPost();
+  }, []);
 
   useEffect(() => {
     if (!post) {
@@ -105,6 +111,7 @@ const Post = ({
 Post.propTypes = {
   getPostById: PropTypes.func.isRequired,
   addComment: PropTypes.func.isRequired,
+  clearPost: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -114,4 +121,6 @@ const mapStateToProps = (state) => ({
   currentUser: state.auth.user,
 });
 
-export default connect(mapStateToProps, { getPostById, addComment })(Post);
+export default connect(mapStateToProps, { getPostById, addComment, clearPost })(
+  Post
+);

@@ -80,6 +80,18 @@ const postsReducer = (state = initialState, action) => {
         ...state,
         posts: state.posts.filter((post) => post._id !== payload._id),
       };
+
+    case types.CLEAR_POSTS:
+      return {
+        ...state,
+        posts: [],
+      };
+
+    case types.CLEAR_POST:
+      return {
+        ...state,
+        post: null,
+      };
     default:
       return state;
   }

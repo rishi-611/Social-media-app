@@ -1,16 +1,25 @@
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import getProfile from "../../actions/profile";
+import getProfile, { clearProfile } from "../../actions/profile";
 import { Link } from "react-router-dom";
 import DashboardActions from "./DashboardActions";
 import Education from "./Education";
 import Experience from "./Experience";
 import { deleteAccount } from "../../actions/auth";
 
-const Dashboard = ({ profile, getProfile, auth, deleteAccount, history }) => {
+const Dashboard = ({
+  profile,
+  getProfile,
+  clearProfile,
+  auth,
+  deleteAccount,
+  history,
+}) => {
   useEffect(() => {
     getProfile();
+
+    return () => clearProfile();
   }, []);
   if (profile.loading && profile.profile === null) {
     return <Spinner />;
@@ -60,6 +69,8 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 
-export default connect(mapStateToProps, { getProfile, deleteAccount })(
-  Dashboard
-);
+export default connect(mapStateToProps, {
+  getProfile,
+  deleteAccount,
+  clearProfile,
+})(Dashboard);

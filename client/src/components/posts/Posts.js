@@ -1,7 +1,13 @@
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { getPosts, addLike, removeLike, deletePost } from "../../actions/posts";
+import {
+  getPosts,
+  addLike,
+  removeLike,
+  deletePost,
+  clearPosts,
+} from "../../actions/posts";
 import Spinner from "../layout/Spinner";
 import { Link, Redirect } from "react-router-dom";
 import Moment from "react-moment";
@@ -12,10 +18,16 @@ const Posts = ({
   getPosts,
   addLike,
   removeLike,
+  clearPosts,
   authenticated,
   auth,
   deletePost,
 }) => {
+  useEffect(() => {
+    // cleanup on unmount
+    return () => clearPosts();
+  }, []);
+
   useEffect(() => {
     getPosts();
   }, [getPosts]);
@@ -112,6 +124,7 @@ Posts.propTypes = {
   addLike: PropTypes.func.isRequired,
   removeLike: PropTypes.func.isRequired,
   deletePost: PropTypes.func.isRequired,
+  clearPosts: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 };
 
@@ -126,4 +139,5 @@ export default connect(mapStateToProps, {
   addLike,
   removeLike,
   deletePost,
+  clearPosts,
 })(Posts);
