@@ -18,6 +18,7 @@ const ProfileItem = ({
   getGithubRepos,
   error,
   repos,
+  user,
 }) => {
   useEffect(() => {
     // on component unmount, clean up the profile from state
@@ -35,20 +36,32 @@ const ProfileItem = ({
   }, [profile]);
 
   // show only those links which are provided by user
-  const renderSocialLinks = () =>
-    Object.keys(profile.social).map((field, i) =>
-      profile.social[field] ? (
+  const renderSocialLinks = () => (
+    <Fragment>
+      {profile.website ? (
         <a
-          key={i}
-          href={profile.social[field]}
+          key="website-logo"
+          href={profile.website}
           target="_blank"
           rel="noopener noreferrer"
         >
-          <i className={`fab fa-${field} fa-2x`}></i>
+          <i className={`fas fa-globe fa-2x`}></i>
         </a>
-      ) : null
-    );
-
+      ) : null}
+      {Object.keys(profile.social).map((field, i) =>
+        profile.social[field] ? (
+          <a
+            key={i}
+            href={profile.social[field]}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i className={`fab fa-${field} fa-2x`}></i>
+          </a>
+        ) : null
+      )}
+    </Fragment>
+  );
   const renderSkills = () =>
     profile.skills.map((skill, i) => (
       <div className="p-1" key={`skill-${i}`}>
@@ -139,20 +152,33 @@ const ProfileItem = ({
       </div>
     ));
 
-  if (!profile && Object.keys(error).length === 0) {
+  if (!profile && !error) {
     return <Spinner />;
   }
 
-  if (!profile && Object.keys(error).length > 0) {
-    console.log(profile);
-    console.log(error);
+  if (!profile && error && Object.keys(error).length === 0) {
+    return <Spinner />;
+  }
+
+  if (!profile && error && Object.keys(error).length > 0) {
     return <Redirect to="/profiles"></Redirect>;
   }
+
+  if (!profile) {
+    return <Spinner />;
+  }
+
   return (
     <Fragment>
       <Link to="/profiles" className="btn btn-dark">
         Back To Profiles
       </Link>
+
+      {user?._id === profile.user._id ? (
+        <Link to="/profileForm" className="btn btn-dark mx">
+          Edit Profile
+        </Link>
+      ) : null}
 
       <div className="profile-grid my-1">
         <div className="profile-top bg-primary p-2">
@@ -163,11 +189,12 @@ const ProfileItem = ({
           />
           <h1 className="large">{profile.user.name}</h1>
           <p className="lead">
-            {profile.status}{" "}
-            {profile.user.company ? `at ${profile.user.company}` : ""}
+            {profile.status} {profile.company ? `at ${profile.company}` : ""}
           </p>
           {profile.location ? <p>{profile.location}</p> : null}
-          <div className="icons my-1">{renderSocialLinks()}</div>
+          {profile.social ? (
+            <div className="icons my-1">{renderSocialLinks()}</div>
+          ) : null}
         </div>
 
         <div className="profile-about bg-light p-2">
@@ -224,6 +251,7 @@ const mapStateToProps = (state) => ({
   profile: state.profile.profile,
   error: state.profile.error,
   repos: state.profile.repos,
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps, {

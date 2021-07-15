@@ -14,11 +14,14 @@ const Profiles = ({ clearProfile, getAllProfiles, profile }) => {
   const renderProfileItems = () =>
     profile.profiles.map((profile) => (
       <li className="profile bg-light" key={profile._id}>
-        <img
-          className="round-img"
-          src={profile.user.avatar}
-          alt="User avatar"
-        />
+        <div className="profile-item-img">
+          {" "}
+          <img
+            className="round-img"
+            src={profile.user.avatar}
+            alt="User avatar"
+          />
+        </div>
         <div>
           <h2>{profile.user.name}</h2>
           <p>

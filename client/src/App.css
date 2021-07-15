@@ -231,6 +231,7 @@ img {
 .round-img {
   border-radius: 50%;
   box-shadow: 0 0 10px var(--dark-color);
+  max-width: 120px;
 }
 
 .line {
@@ -378,6 +379,12 @@ button {
   padding: 1rem;
   line-height: 1.8;
   margin-bottom: 1rem;
+}
+
+.profile-item-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Profile Page */

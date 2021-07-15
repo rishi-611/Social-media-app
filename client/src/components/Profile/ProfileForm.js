@@ -33,7 +33,7 @@ const ProfileForm = ({
     if (!profile) return getProfile();
 
     setFormData({
-      company: loading || !profile.website ? "" : profile.website,
+      company: loading || !profile.company ? "" : profile.company,
       website: loading || !profile.website ? "" : profile.website,
       location: loading || !profile.location ? "" : profile.location,
       status: loading || !profile.status ? "" : profile.status,

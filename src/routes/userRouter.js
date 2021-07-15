@@ -4,6 +4,7 @@ const gravatar = require("gravatar");
 const User = require("../db/models/User");
 const auth = require("../middleware/auth");
 const Profile = require("../db/models/Profile");
+const Post = require("../db/models/Post");
 
 const userRouter = express.Router();
 
@@ -120,6 +121,9 @@ userRouter.get("/me", auth, async (req, res) => {
 // PRIVATE
 userRouter.delete("/me", auth, async (req, res) => {
   try {
+    // delete all posts of user
+    await Post.deleteMany({ user: req.user._id });
+
     // delete user's profile
     await Profile.deleteOne({ user: req.user._id });
     // delete the user
