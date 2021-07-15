@@ -107,7 +107,6 @@ export const addComment = (postId, text) => async (dispatch) => {
     });
     dispatch(setAlert("success", "Comment added"));
   } catch (err) {
-    console.log(err.response);
     dispatch({
       type: types.ADD_COMMENT_FAILURE,
     });

@@ -66,7 +66,7 @@ const register =
     } catch (err) {
       // errors will be an array of objs
 
-      const errors = err.response.data.errors;
+      const errors = err.response?.data?.errors;
       if (errors) {
         errors.forEach((error) => {
           dispatch(setAlert("danger", error.msg));
@@ -106,7 +106,7 @@ export const login =
       dispatch(loadUser());
     } catch (err) {
       // errors will be an array of objs
-      const errors = err.response.data.errors;
+      const errors = err.response?.data?.errors;
       if (errors) {
         errors.forEach((error) => {
           dispatch(setAlert("danger", error.msg));

@@ -96,14 +96,6 @@ export const createProfile =
       dispatch(setAlert("success", msg));
     } catch (err) {
       dispatch(setAlert("danger", "failed to create profile"));
-      const errors = err.response;
-      console.log(errors);
-      if (err.response?.data?.errors.length > 0) {
-        err.response.data.errors.forEach((error) => {
-          console.log(error.msg);
-          dispatch(setAlert("danger", error.msg));
-        });
-      }
     }
   };
 
@@ -132,10 +124,7 @@ export const addEducation = (formData, history) => async (dispatch) => {
     history.push("/dashboard");
     dispatch(setAlert("success", "Education Added"));
   } catch (err) {
-    console.log(err.response.data);
-    err.reponse.data.errors.forEach((error) =>
-      dispatch(setAlert("danger", error.msg))
-    );
+    dispatch(setAlert("danger", "failed to add education"));
   }
 };
 
@@ -161,14 +150,6 @@ export const addExperience = (formData, history) => async (dispatch) => {
     dispatch(setAlert("success", "Experience Added"));
   } catch (err) {
     dispatch(setAlert("danger", "failed to create profile"));
-    const errors = err.response;
-    console.log(errors);
-    if (err.response?.data?.errors.length > 0) {
-      err.response.data.errors.forEach((error) => {
-        console.log(error.msg);
-        dispatch(setAlert("danger", error.msg));
-      });
-    }
   }
 };
 
