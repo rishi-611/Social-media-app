@@ -162,11 +162,14 @@ const ProfileForm = ({
         <i className="fas fa-user"></i> Let's get some information to make your
         profile stand out
       </p>
-      <small>* = required field</small>
+      <small>
+        <span className="text-danger">*</span> = required field
+      </small>
       <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           <select
             name="status"
+            id="status"
             onChange={(e) => onChange(e)}
             value={status}
             required
@@ -226,8 +229,10 @@ const ProfileForm = ({
             type="text"
             placeholder="* Skills"
             name="skills"
+            id="skills"
             onChange={(e) => onChange(e)}
             value={skills}
+            required
           />
           <small className="form-text">
             Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
