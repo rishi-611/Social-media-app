@@ -63,7 +63,7 @@ const Navbar = ({ auth }) => {
       <nav className="navbar bg-dark">
         <h3>
           <Link to="/">
-            <i className="fas fa-laptop-code"></i> TechConnect
+            <i className="fas fa-laptop-code main-logo"></i> TechConnect
           </Link>
         </h3>
         {!auth.loading && (

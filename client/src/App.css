@@ -553,6 +553,14 @@ button {
 }
 
 @media (max-width: 700px) {
+  .navbar i {
+    transform: scale(1.3);
+  }
+
+  .navbar .main-logo {
+    transform: scale(1);
+  }
+
   table {
     margin: auto;
   }
