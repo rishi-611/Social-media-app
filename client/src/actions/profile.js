@@ -73,8 +73,6 @@ export const createProfile =
   (formData, history, edit = false) =>
   async (dispatch) => {
     try {
-      console.log(formData);
-
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -164,7 +162,6 @@ export const deleteEducation = (educId) => async (dispatch) => {
 
     dispatch(setAlert("success", "Education deleted"));
   } catch (err) {
-    console.log(err.response.data);
     dispatch(setAlert("danger", "Failed to delete education"));
   }
 };
@@ -180,7 +177,6 @@ export const deleteExperience = (expId) => async (dispatch) => {
 
     dispatch(setAlert("success", "Experience deleted"));
   } catch (err) {
-    console.log(err.response.data);
     dispatch(setAlert("danger", "Failed to delete experience"));
   }
 };

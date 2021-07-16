@@ -56,7 +56,11 @@ const Dashboard = ({
         </Fragment>
       )}
       <div className="my-2">
-        <button className="btn btn-danger" onClick={handleDeleteAccBtn}>
+        <button
+          className="btn btn-danger"
+          id="dashboard-delete-btn"
+          onClick={handleDeleteAccBtn}
+        >
           Delete Account
         </button>
       </div>

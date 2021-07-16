@@ -69,21 +69,60 @@ const ProfileForm = ({
     instagram,
   } = formData;
 
+  const statusInput = document.querySelector("#status");
+
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
+
+    // compare data with initial profile data
+    const initialProfile = !profile
+      ? {}
+      : {
+          company: loading || !profile.company ? "" : profile.company,
+          website: loading || !profile.website ? "" : profile.website,
+          location: loading || !profile.location ? "" : profile.location,
+          status: loading || !profile.status ? "" : profile.status,
+          skills: loading || !profile.skills ? "" : profile.skills.join(", "),
+          bio: loading || !profile.bio ? "" : profile.bio,
+          githubusername:
+            loading || !profile.githubusername ? "" : profile.githubusername,
+          youtube:
+            loading || !profile.social?.youtube ? "" : profile.social.youtube,
+          twitter:
+            loading || !profile.social?.twitter ? "" : profile.social.twitter,
+          linkedin:
+            loading || !profile.social?.linkedin ? "" : profile.social.linkedin,
+          facebook:
+            loading || !profile.social?.facebook ? "" : profile.social.facebook,
+          instagram:
+            loading || !profile.social?.instagram
+              ? ""
+              : profile.social.instagram,
+        };
+
+    // only send the fields, which are either updated,
+    // or are not empty
+    // this way user can remove a field by leaving it empty
+
     let cleanedFormData = {};
     Object.keys(formData).forEach((field) => {
-      if (formData[field]?.length !== 0) {
+      if (
+        formData[field] !== initialProfile[field] ||
+        formData[field]?.length !== 0
+      ) {
         cleanedFormData[field] = formData[field];
       }
     });
-    if (cleanedFormData.status === "0") {
+    if (cleanedFormData.status === "0" || cleanedFormData.status === "") {
+      statusInput.style.outline = "0.75px solid red";
+      window.scrollTo(0, 0);
       delete cleanedFormData.status;
     }
+
     // any component which is direct child of router, gets access to history object in props
     // we need to pass it to action, if we want to use it there
     // if profile already exists, then edit, otherwise set edit to false
@@ -179,8 +218,8 @@ const ProfileForm = ({
             <option value="Junior Developer">Junior Developer</option>
             <option value="Senior Developer">Senior Developer</option>
             <option value="Manager">Manager</option>
-            <option value="Student or Learning">Student or Learning</option>
-            <option value="Instructor">Instructor or Teacher</option>
+            <option value="Student or Learning">Student</option>
+            <option value="Instructor">Instructor</option>
             <option value="Intern">Intern</option>
             <option value="Other">Other</option>
           </select>

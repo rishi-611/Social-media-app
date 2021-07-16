@@ -52,7 +52,7 @@ const register =
     try {
       const userData = await axios.post("/api/users", body, config);
       if (!userData) {
-        return console.log("no data received");
+        return;
       }
       //  if token received
       dispatch({
@@ -94,7 +94,7 @@ export const login =
     try {
       const userData = await axios.post("/api/users/login", body, config);
       if (!userData) {
-        return console.log("no data received");
+        return;
       }
       dispatch({
         type: LOGIN_SUCCESS,
@@ -125,7 +125,7 @@ export const logout = () => async (dispatch) => {
       type: LOG_OUT,
     });
   } catch (err) {
-    console.log("some error");
+    alert("some Error occurred while logging out");
   }
 };
 export const deleteAccount = (history) => async (dispatch) => {

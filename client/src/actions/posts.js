@@ -125,7 +125,6 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
     });
     dispatch(setAlert("success", "Comment was removed permanently"));
   } catch (error) {
-    console.log(error.response);
     dispatch(setAlert("danger", "failed to delete the comment"));
   }
 };
@@ -140,7 +139,6 @@ export const deletePost = (postId) => async (dispatch) => {
     });
     dispatch(setAlert("success", "Post was removed permanently"));
   } catch (error) {
-    console.log(error.response);
     dispatch(setAlert("danger", "failed to delete the post"));
   }
 };
