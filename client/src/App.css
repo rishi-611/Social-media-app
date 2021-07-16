@@ -593,7 +593,7 @@ button {
 
   .navbar ul {
     text-align: center;
-    justify-content: center;
+    justify-content: space-around;
   }
 
   .navbar h1 {
@@ -683,11 +683,34 @@ button {
   .post {
     gap: 0.2rem;
   }
+
+  #post-submit-btn {
+    margin-top: 1rem;
+    width: 100%;
+  }
 }
 
 @media (max-width: 360px) {
   .container {
     padding: 0 0.5rem;
+  }
+
+  .navbar h3 {
+    display: none;
+  }
+
+  #landing-text {
+    display: none;
+  }
+
+  /* .navbar a {
+    padding: 0.08rem;
+    margin: 0 0.1rem;
+  } */
+
+  .landing-inner .large {
+    font-size: 1.6rem;
+    font-weight: 700;
   }
 
   .posts-btn-container {

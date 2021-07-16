@@ -36,6 +36,7 @@ const PostForm = ({ createPost }) => {
         <input
           type="submit"
           className="btn btn-dark btn-sm-block my-1"
+          id="post-submit-btn"
           value="Submit"
         />
       </form>
