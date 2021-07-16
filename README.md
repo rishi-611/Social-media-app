@@ -3,7 +3,7 @@
 
 **Checout the Website**: [Website Link]([title](https://www.example.com))
 
-The web design theme is taken from Brad Traversy's DevConnect github project.
+The web design theme is highly inspired from Brad Traversy's DevConnect github project.
 
 Although changes to the overall design were made, aimed towards website responsiveness, and minor UI improvements.
 
