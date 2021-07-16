@@ -1,17 +1,18 @@
 #  TechConnector
 ## A Social Media App to connect developers
 
-**Checout the Website**: [Website Link]([title](https://www.example.com))
+**Checkout the Website**: [Website Link]([title](https://www.example.com))
 
-The web design theme is highly inspired from Brad Traversy's DevConnect github project.
+TechConnect is a MERN stack social media platform, where you can signup, create your profile, add public posts that every member can see, like and comment.
+You can view all profiles, their github repos, if provided by the user and so on.
+You can edit your profile anytime, and if you delete your account, your profile and all posts also get deleted.
 
-Although changes to the overall design were made, aimed towards website responsiveness, and minor UI improvements.
+The authentication is done through JWT tokens, and all active tokens are stored in user data, so you can login and logout from multipe accounts independently
+Passwords are hashed via bcrypt, which keeps userdata safe
 
-This is a MERN stack project.
+The web design theme is not completely mine. I used the css theme from Brad Traversy's DevConnect github project. Although a lot of changes to the initial design were made, aimed towards website responsiveness, and better user experience
 
-It uses JWT tokens for authentication. Feautures like viewing posts, adding posts and comments, creating your own profile 
 
-are Private routes which can only be accessed when you are logged in.
 
 
 
