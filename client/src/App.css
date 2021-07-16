@@ -1,7 +1,7 @@
 /* Global Styles */
 :root {
   --primary-color: #767eeb;
-  --dark-color: #191831;
+  --dark-color: #101025;
   --light-color: #d1d3ff;
   --danger-color: #dc3545;
   --success-color: #30ac4d;
@@ -350,7 +350,16 @@ button {
 /* Landing Page */
 .landing {
   position: absolute;
-  background: url("./img/showcase.jpg") no-repeat center center/cover;
+  background-image: radial-gradient(
+    circle,
+    #191831,
+    #1311b8,
+    #111127,
+    #0d0b22,
+    #07051d
+  );
+  /* background: url("./img/showcase.jpg") no-repeat center center/cover; */
+
   top: 0;
   bottom: 0;
   left: 0;
@@ -491,6 +500,7 @@ button {
   grid-template-columns: 1fr 4fr;
   grid-gap: 2rem;
   align-items: center;
+  overflow: hidden;
 }
 
 .post > div:first-child {
@@ -528,6 +538,17 @@ button {
 
   .centered-container .btn {
     margin-right: 0.6rem;
+  }
+
+  .posts-btn-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 1fr;
+    row-gap: 0.5rem;
+  }
+
+  .comment {
+    display: none;
   }
 }
 
@@ -653,7 +674,22 @@ button {
   }
 }
 
+@media (max-width: 485px) {
+  .btn-sm-block {
+    display: block;
+    margin: 0.1rem auto 0.5rem auto;
+  }
+
+  .post {
+    gap: 0.2rem;
+  }
+}
+
 @media (max-width: 360px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+
   .posts-btn-container {
     display: flex;
     flex-direction: column;
@@ -664,6 +700,10 @@ button {
 
   .posts-btn-container span .btn {
     min-width: 65px;
+  }
+
+  .post .comment-count {
+    margin-left: 0.4rem;
   }
 
   .p-1 {

@@ -170,12 +170,12 @@ const ProfileItem = ({
 
   return (
     <Fragment>
-      <Link to="/profiles" className="btn btn-dark">
+      <Link to="/profiles" className="btn btn-dark btn-sm-block">
         Back To Profiles
       </Link>
 
       {user?._id === profile.user._id ? (
-        <Link to="/profileForm" className="btn btn-dark mx">
+        <Link to="/profileForm" className="btn btn-dark mx btn-sm-block">
           Edit Profile
         </Link>
       ) : null}

@@ -61,43 +61,39 @@ const Posts = ({
             Posted on <Moment format="DD/MM/YY">{post.date}</Moment>
           </p>
           <div className="posts-btn-container">
-            <span>
-              <button
-                type="button"
-                className="btn btn-light"
-                onClick={() => addLike(post._id)}
-              >
-                <i className="fas fa-thumbs-up"></i>
-                <span>{post.likes.length}</span>
-              </button>
-              <button
-                type="button"
-                className="btn btn-light"
-                onClick={() => removeLike(post._id)}
-              >
-                <i className="fas fa-thumbs-down"></i>
-              </button>
-            </span>
-            <span>
-              <Link to={`/posts/${post._id}`}>
-                <button className="btn btn-primary">
-                  <span className="hide-sm mx-1">Comments</span>
-                  <i className="fas fa-solid fa-comment"></i>
-                  <span className="comment-count mx">
-                    {post.comments.length}
-                  </span>
-                </button>
+            <button
+              type="button"
+              className="btn btn-light"
+              onClick={() => addLike(post._id)}
+            >
+              <i className="fas fa-thumbs-up"></i>
+              <span>{post.likes.length}</span>
+            </button>
+            <button
+              type="button"
+              className="btn btn-light"
+              onClick={() => removeLike(post._id)}
+            >
+              <i className="fas fa-thumbs-down"></i>
+            </button>
+
+            <button className="btn btn-primary">
+              <Link to={`/posts/${post._id}`} style={{ color: "#fff" }}>
+                <span className="hide-sm mx-1 comment">Comments</span>
+                <i className="fas fa-solid fa-comment"></i>
+                <span className="comment-count mx">{post.comments.length}</span>
               </Link>
-              {post.user === auth.user?._id ? (
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={(e) => handleDeleteClick(e, post._id)}
-                >
-                  <i className="fas fa-times"></i>
-                </button>
-              ) : null}
-            </span>
+            </button>
+
+            {post.user === auth.user?._id ? (
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={(e) => handleDeleteClick(e, post._id)}
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            ) : null}
           </div>
         </div>
       </div>
